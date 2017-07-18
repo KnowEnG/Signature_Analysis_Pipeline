@@ -28,15 +28,27 @@ def run_cos(run_parameters):
 
     common_genes        = kn.find_common_node_names(genes_in_expression, genes_in_signature)
 
-    expression_mat  = expression_df.loc[common_genes,:].values
-    signature_mat   =  signature_df.loc[common_genes,:].values
+    expression_mat      = expression_df.loc[common_genes,:].values
+    signature_mat       =  signature_df.loc[common_genes,:].values
+    cos_mat             = cosine_similarity(expression_mat.T, signature_mat.T)
 
-    cos_mat         = cosine_similarity(expression_mat.T, signature_mat.T)
+    max_value_row_index = np.argmax(cos_mat, axis=0)
+    num_of_cols =  len(cos_mat[0])
 
-    max_value_row_index = np.argmax(cos_mat, axis=1)
-#    cos_mat[rnage(len(expression_df.columns))
+    cos_mat[max_value_row_index, range(num_of_cols)] = 1
+    cos_mat[cos_mat!=1] = 0
+
+    print(cos_mat)
+
+    #cos_mat[cos_mat!=1           ] = int(0)
     
-#    save_final_samples_signature(sample_names, cos_mat, run_parameters)
+    samples_names    = expression_df.columns
+    signatures_names =  signature_df.columns
+    cos_df           = pd.DataFrame(cos_mat, samples_names, signatures_names)
+
+    print(cos_mat)
+    print(cos_df)
+#    save_final_samples_signature(cos_df, run_parameters)
 
 def run_cc_cos(run_parameters):
     """ wrapper: call sequence to perform signature analysis with

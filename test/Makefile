@@ -22,12 +22,14 @@ copy_run_files:
 clean_dir_recursively:
 	$(RMR) $(RUN_DIR)
 
-
 # ----------------------------------------------------------------
 # Large Benchmarks RUN Section                                   -
 # ----------------------------------------------------------------
 run_cos:
 	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file TEST_1_GS_cos.yml
+
+run_cos_bench:
+	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file BENCH_1_GS_cos.yml
 
 # ----------------------------------------------------------------
 # - CLEAN UP SECTION                                             -
