@@ -28,6 +28,10 @@ clean_dir_recursively:
 run_cos:
 	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file TEST_1_GS_cos.yml
 
+run_cc_cos:
+	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file TEST_3_GS_cc_cos.yml
+
+
 run_cos_bench:
 	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file BENCH_1_GS_cos.yml
 
