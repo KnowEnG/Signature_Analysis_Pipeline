@@ -1,6 +1,0 @@
-method: cos                 # Available methods: cos, cc_cos, net_cos, cc_net_cos
-
-spreadsheet_name_full_path: ../data/spreadsheets/TEST_1_gene_sample.tsv
-signature_name_full_path:   ../data/spreadsheets/TEST_1_signature.tsv
-results_directory:           ./run_dir/results
-tmp_directory:               ./run_dir/tmp
