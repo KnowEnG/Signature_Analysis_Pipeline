@@ -71,6 +71,99 @@ def run_cc_cos(run_parameters):
     save_final_samples_signature(consensus_df, run_parameters)
     kn.remove_dir(run_parameters["tmp_directory"])
 
+def run_net_cos(run_parameters):
+    """ Run random walk first to smooth spreadsheet
+    and perform cosine similarity analysis and saves results.
+
+    Args:
+        run_parameters: parameter set dictionary.
+    """
+
+    expression_name = run_parameters["spreadsheet_name_full_path"]
+    signature_name  = run_parameters["signature_name_full_path"  ]
+    gg_network_name = run_parameters['gg_network_name_full_path']
+
+    expression_df   = kn.get_spreadsheet_df(expression_name)
+    signature_df    = kn.get_spreadsheet_df(signature_name )
+
+    samples_names    = expression_df.columns
+    signatures_names =  signature_df.columns
+
+    network_mat, unique_gene_names = kn.get_sparse_network_matrix(gg_network_name)
+    network_mat = kn.normalize_sparse_mat_by_diagonal(network_mat)
+    
+    expression_df = kn.update_spreadsheet_df(expression_df, unique_gene_names)
+    signature_df = kn.update_spreadsheet_df(signature_df, unique_gene_names)
+
+    expression_mat = expression_df.as_matrix()
+    signature_mat = signature_df.as_matrix()
+
+    expression_mat, iterations = kn.smooth_matrix_with_rwr(expression_mat, network_mat, run_parameters)
+    signature_mat, iterations = kn.smooth_matrix_with_rwr(signature_mat, network_mat, run_parameters)
+
+    expression_df.iloc[:] = expression_mat
+    signature_df.iloc[:] = signature_mat
+
+    cos_mat = generate_cos_mat(expression_df, signature_df)
+    cos_mat = map_cos_range(cos_mat, 0)
+    cos_df  = pd.DataFrame(cos_mat, index=samples_names, columns=signatures_names)
+
+    save_final_samples_signature(cos_df, run_parameters)
+
+def run_cc_net_cos(run_parameters):
+    """ wrapper: call sequence to perform signature analysis with
+        random walk smoothing and consensus clustering and write results.
+
+    Args:
+        run_parameters: parameter set dictionary.
+    """
+    tmp_dir = 'tmp_cc_cos'
+    run_parameters = update_tmp_directory(run_parameters, tmp_dir)
+
+    expression_name = run_parameters["spreadsheet_name_full_path"]
+    signature_name  = run_parameters["signature_name_full_path"  ]
+    gg_network_name = run_parameters['gg_network_name_full_path']
+
+    expression_df   = kn.get_spreadsheet_df(expression_name)
+    signature_df    = kn.get_spreadsheet_df(signature_name )
+
+    samples_names    = expression_df.columns
+    signatures_names =  signature_df.columns
+
+    network_mat, unique_gene_names = kn.get_sparse_network_matrix(gg_network_name)
+    network_mat = kn.normalize_sparse_mat_by_diagonal(network_mat)
+    
+    expression_df = kn.update_spreadsheet_df(expression_df, unique_gene_names)
+    signature_df = kn.update_spreadsheet_df(signature_df, unique_gene_names)
+
+    expression_mat = expression_df.as_matrix()
+    signature_mat = signature_df.as_matrix()
+
+    expression_mat, iterations = kn.smooth_matrix_with_rwr(expression_mat, network_mat, run_parameters)
+    signature_mat, iterations = kn.smooth_matrix_with_rwr(signature_mat, network_mat, run_parameters)
+
+    expression_df.iloc[:] = expression_mat
+    signature_df.iloc[:] = signature_mat
+
+    number_of_bootstraps = run_parameters['number_of_bootstraps']
+    processing_method = run_parameters['processing_method']
+
+    if processing_method == 'serial':
+        for sample in range(0, number_of_bootstraps):
+            run_cc_cos_signature_worker(expression_mat, signature_mat, run_parameters, sample)
+
+    elif processing_method == 'parallel':
+        find_and_save_cc_cos_signature_parallel(spreadsheet_mat, run_parameters, number_of_bootstraps)
+
+    else:
+        raise ValueError('processing_method contains bad value.')
+
+    consensus_df = form_consensus_df(
+        run_parameters, expression_df, signature_df)
+    
+    save_final_samples_signature(consensus_df, run_parameters)
+    kn.remove_dir(run_parameters["tmp_directory"])
+
 
 def find_and_save_cc_cos_signature_parallel(spreadsheet_mat, run_parameters, local_parallelism):
     """ central loop: compute components for the consensus matrix by
@@ -89,7 +182,7 @@ def find_and_save_cc_cos_signature_parallel(spreadsheet_mat, run_parameters, loc
         parallelism = dstutil.determine_parallelism_locally(local_parallelism, run_parameters['parallelism'])
     else:
         parallelism = dstutil.determine_parallelism_locally(local_parallelism)
-    dstutil.parallelize_processes_locally(run_cc_nmf_clusters_worker, zipped_arguments, parallelism)
+    dstutil.parallelize_processes_locally(run_cc_cos_signature_worker, zipped_arguments, parallelism)
 
 
 def run_cc_cos_signature_worker(expression_mat, signature_mat, run_parameters, sample):

@@ -26,14 +26,41 @@ clean_dir_recursively:
 # Large Benchmarks RUN Section                                   -
 # ----------------------------------------------------------------
 run_cos:
-	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file TEST_1_GS_cos.yml
+	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file BENCHMARK_1_GS_cos.yml
+
+run_net_cos:
+	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file BENCHMARK_2_GS_net_cos.yml
 
 run_cc_cos:
+	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file BENCHMARK_3_GS_cc_cos.yml
+
+run_cc_net_cos:
+	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file BENCHMARK_4_GS_cc_net_cos.yml
+
+# ----------------------------------------------------------------
+# Small Benchmarks RUN Section                                   -
+# ----------------------------------------------------------------
+
+run_cos_test:
+	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file TEST_1_GS_cos.yml
+
+run_net_cos_test:
+	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file TEST_2_GS_net_cos.yml
+
+run_cc_cos_test:
 	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file TEST_3_GS_cc_cos.yml
 
+run_cc_net_cos_test:
+	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file TEST_4_GS_cc_net_cos.yml
 
 run_cos_bench:
 	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file BENCH_1_GS_cos.yml
+
+# ----------------------------------------------------------------
+# - VERIFICATION TESTS RUN SECTION                               -
+# ----------------------------------------------------------------
+verification_tests:
+	python3 ./integration/verify_benchmarks.py
 
 # ----------------------------------------------------------------
 # - CLEAN UP SECTION                                             -
