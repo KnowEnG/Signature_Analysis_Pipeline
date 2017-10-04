@@ -1,4 +1,5 @@
-method: cc_net_cos          # Available methods: cos, cc_cos, net_cos, cc_net_cos
+method: cc_net_similarity          # Available methods: cos, cc_cos, net_cos, cc_net_cos
+similarity_measure:          cosine
 
 spreadsheet_name_full_path: ../data/spreadsheets/TEST_1_gene_sample.tsv
 signature_name_full_path:   ../data/spreadsheets/TEST_1_signature.tsv
@@ -15,3 +16,4 @@ cols_sampling_fraction:     0.8        # 0.8 means 80% of columns
 number_of_bootstraps:       4
 
 processing_method: serial
+cluster_shared_volumn: none

@@ -1,4 +1,5 @@
-method: net_cos                 # Available methods: cos, cc_cos, net_cos, cc_net_cos
+method:                      net_similarity  # Available methods: cos, cc_cos, net_cos, cc_net_cos
+similarity_measure:          cosine
 
 spreadsheet_name_full_path: ../data/spreadsheets/Hsap.nbs_OV.G.gene_som_mut.binary.a.df
 signature_name_full_path:   ../data/spreadsheets/Hsap.nbs_UCEC.G.gene_som_mut.binary.a.df

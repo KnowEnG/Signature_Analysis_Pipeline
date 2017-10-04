@@ -1,5 +1,6 @@
 
-method: cc_net_cos      # cos, cc_cos, net_cos, cc_net_cos
+method: cc_net_similarity      # cos, cc_cos, net_cos, cc_net_cos
+similarity_measure:          cosine
 
 # -----------------------------------------------------------------------
 # Gene x Gene Network stored in 4 col format;   Gene x Set-id Spreadsheet
@@ -28,3 +29,4 @@ number_of_bootstraps:      4
 rows_sampling_fraction:    0.8
 cols_sampling_fraction:    0.8
 
+cluster_shared_volumn: none

@@ -25,17 +25,17 @@ clean_dir_recursively:
 # ----------------------------------------------------------------
 # Large Benchmarks RUN Section                                   -
 # ----------------------------------------------------------------
-run_cos:
-	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file BENCHMARK_1_GS_cos.yml
+run_similarity:
+	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file BENCHMARK_1_GS_spearman.yml
 
-run_net_cos:
-	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file BENCHMARK_2_GS_net_cos.yml
+run_net_similarity:
+	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file BENCHMARK_2_GS_net_spearman.yml
 
-run_cc_cos:
-	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file BENCHMARK_3_GS_cc_cos.yml
+run_cc_similarity:
+	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file BENCHMARK_3_GS_cc_spearman.yml
 
-run_cc_net_cos:
-	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file BENCHMARK_4_GS_cc_net_cos.yml
+run_cc_net_similarity:
+	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file BENCHMARK_4_GS_cc_net_spearman.yml
 
 # ----------------------------------------------------------------
 # Small Benchmarks RUN Section                                   -
