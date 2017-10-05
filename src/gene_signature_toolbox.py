@@ -117,7 +117,7 @@ def run_cc_net_similarity(run_parameters):
     Args:
         run_parameters: parameter set dictionary.
     """
-    tmp_dir = 'tmp_cc_similarity'
+    tmp_dir = 'tmp_cc_similarity_'
     run_parameters = update_tmp_directory(run_parameters, tmp_dir)
 
     expression_name      = run_parameters["spreadsheet_name_full_path"]
@@ -261,7 +261,7 @@ def assemble_similarity_df(expression_df, signature_df, run_parameters):
     similarity_mat   = np.zeros((expression_names.shape[0], signatures_names.shape[0]))
 
     for tmp_f in dir_list:
-        if tmp_f[0:8] == 'tmp_p_e_':
+        if tmp_f[0:8] == 'tmp_h_e_':
             hname_e = os.path.join(tmp_dir, 'tmp_h_e_' + tmp_f[8:len(tmp_f)])
 
             sampled_similarity_mat = np.load(hname_e)
@@ -314,11 +314,11 @@ def map_similarity_range(similarity_mat, axis_val):
     Returns:
         similarity_mat: normalized similarity matrix with 0 and 1.
     """
-    max_value_row_index = np.argmax(similarity_mat, axis=axis_val)
-    num_of_cols         =  len(similarity_mat[0])
+    #max_value_row_index = np.argmax(similarity_mat, axis=axis_val)
+    #num_of_cols         =  len(similarity_mat[0])
 
-    similarity_mat[max_value_row_index, range(num_of_cols)] = 1
-    similarity_mat[similarity_mat!=1]                       = 0
+    #similarity_mat[max_value_row_index, range(num_of_cols)] = 1
+    #similarity_mat[similarity_mat!=1]                       = 0
 
     return similarity_mat
 
