@@ -13,7 +13,7 @@ from   scipy.stats              import spearmanr
 
 
 def run_similarity(run_parameters):
-    """ Performs similarity analysis and saves results.
+    """ Performs similarity analysis and saves the similarity matrix.
 
     Args:
         run_parameters: parameter set dictionary.
@@ -37,8 +37,7 @@ def run_similarity(run_parameters):
 
 
 def run_cc_similarity(run_parameters):
-    """ call sequence to perform signature analysis with
-        bootstrapping similarity and save results.
+    """ Performs similarity analysis with bootstraps and saves the similarity matrix.
 
     Args:
         run_parameters: parameter set dictionary.
@@ -71,8 +70,8 @@ def run_cc_similarity(run_parameters):
 
 
 def run_net_similarity(run_parameters):
-    """ Run random walk first to smooth spreadsheet
-    and perform similarity analysis and saves results.
+    """ Run random walk first to smooth expression and signature 
+    then perform similarity analysis and save the similarity matrix.
 
     Args:
         run_parameters: parameter set dictionary.
@@ -330,7 +329,7 @@ def save_final_samples_similarity(result_df, run_parameters):
         result_df: result dataframe
         run_parameters: write path (run_parameters["results_directory"]).
     """
-    result_df.to_csv(get_output_file_name(run_parameters, 'result', 'viz'), sep='\t')
+    result_df.to_csv(get_output_file_name(run_parameters, 'result', 'viz'), sep='\t', float_format='%.5f')
 
 
 def get_output_file_name(run_parameters, prefix_string, suffix_string='', type_suffix='tsv'):
