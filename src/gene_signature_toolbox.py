@@ -13,7 +13,7 @@ from   scipy.stats              import spearmanr
 
 
 def run_similarity(run_parameters):
-    """ Performs similarity analysis and saves  results.
+    """ Performs similarity analysis and saves results.
 
     Args:
         run_parameters: parameter set dictionary.
@@ -33,12 +33,12 @@ def run_similarity(run_parameters):
     similarity_mat = map_similarity_range(similarity_mat, 0)
     similarity_df  = pd.DataFrame(similarity_mat, index=samples_names, columns=signatures_names)
 
-    save_final_samples_signature(similarity_df, run_parameters)
+    save_final_samples_similarity(similarity_df, run_parameters)
 
 
 def run_cc_similarity(run_parameters):
-    """ wrapper: call sequence to perform signature analysis with
-        consensus clustering and write results.
+    """ call sequence to perform signature analysis with
+        bootstrapping similarity and save results.
 
     Args:
         run_parameters: parameter set dictionary.
@@ -48,7 +48,6 @@ def run_cc_similarity(run_parameters):
 
     expression_name      = run_parameters["spreadsheet_name_full_path"]
     signature_name       = run_parameters["signature_name_full_path"  ]
-    similarity_measure   = run_parameters["similarity_measure"        ]
     number_of_bootstraps = run_parameters['number_of_bootstraps'      ]
     processing_method    = run_parameters['processing_method'         ]
 
@@ -60,13 +59,13 @@ def run_cc_similarity(run_parameters):
            run_cc_similarity_signature_worker(expression_df, signature_df, run_parameters, sample)
 
     elif processing_method == 'parallel':
-         find_and_save_cc_similarity_signature_parallel(expression_df, signature_df, run_parameters, number_of_bootstraps)
+         find_and_save_cc_similarity_parallel(expression_df, signature_df, run_parameters, number_of_bootstraps)
 
     else:
         raise ValueError('processing_method contains bad value.')
 
-    consensus_df = form_consensus_df(expression_df, signature_df, run_parameters)
-    save_final_samples_signature(consensus_df, run_parameters)
+    similarity_df = assemble_similarity_df(expression_df, signature_df, run_parameters)
+    save_final_samples_similarity(similarity_df, run_parameters)
 
     kn.remove_dir(run_parameters["tmp_directory"])
 
@@ -108,12 +107,12 @@ def run_net_similarity(run_parameters):
     similarity_mat = map_similarity_range(similarity_mat, 0)
     similarity_df  = pd.DataFrame(similarity_mat, index=samples_names, columns=signatures_names)
 
-    save_final_samples_signature(similarity_df, run_parameters)
+    save_final_samples_similarity(similarity_df, run_parameters)
 
 
 def run_cc_net_similarity(run_parameters):
     """ wrapper: call sequence to perform signature analysis with
-        random walk smoothing and consensus clustering and write results.
+        random walk smoothing and bootstrapped similarity and save results.
 
     Args:
         run_parameters: parameter set dictionary.
@@ -154,20 +153,19 @@ def run_cc_net_similarity(run_parameters):
             run_cc_similarity_signature_worker(expression_df, signature_df, run_parameters, sample)
 
     elif processing_method == 'parallel':
-         find_and_save_cc_similarity_signature_parallel(expression_df, signature_df, run_parameters, number_of_bootstraps)
+         find_and_save_cc_similarity_parallel(expression_df, signature_df, run_parameters, number_of_bootstraps)
 
     else:
         raise ValueError('processing_method contains bad value.')
 
-    consensus_df = form_consensus_df(expression_df, signature_df, run_parameters)
-    save_final_samples_signature(consensus_df, run_parameters)
+    similarity_df = assemble_similarity_df(expression_df, signature_df, run_parameters)
+    save_final_samples_similarity(similarity_df, run_parameters)
 
     kn.remove_dir(run_parameters["tmp_directory"])
 
 
-def find_and_save_cc_similarity_signature_parallel(expression_df, signature_df, run_parameters, local_parallelism):
-    """ central loop: compute components for the consensus matrix by
-        non-negative matrix factorization.
+def find_and_save_cc_similarity_parallel(expression_df, signature_df, run_parameters, local_parallelism):
+    """ central loop: compute components for the similarity matrix by
 
     Args:
         expression_df    : genes x samples
@@ -205,13 +203,11 @@ def run_cc_similarity_signature_worker(expression_df, signature_df, run_paramete
     import knpackage.toolbox as kn
     import numpy as np
 
-    np.random.seed(sample)
-
     rows_sampling_fraction = run_parameters["rows_sampling_fraction"]
     similarity_measure     = run_parameters['similarity_measure'   ]
 
-    sampled_expression_df  = expression_df.sample(frac = rows_sampling_fraction)
-    sampled_signature_df   =  signature_df.sample(frac = rows_sampling_fraction)
+    sampled_expression_df  = expression_df.sample(frac = rows_sampling_fraction,random_state=sample)
+    sampled_signature_df   =  signature_df.sample(frac = rows_sampling_fraction,random_state=sample)
 
     sampled_similarity_mat = generate_similarity_mat(sampled_expression_df, sampled_signature_df, similarity_measure)
 
@@ -225,8 +221,6 @@ def save_a_signature_to_tmp(sampled_similarity_mat, run_parameters, sequence_num
         run_parameters: parmaeters including the "tmp_directory" name.
         sequence_number: temporary file name suffix.
     """
-    import os
-
     tmp_dir = run_parameters["tmp_directory"]
 
     os.makedirs(tmp_dir, mode=0o755, exist_ok=True)
@@ -237,8 +231,8 @@ def save_a_signature_to_tmp(sampled_similarity_mat, run_parameters, sequence_num
         sampled_similarity_mat.dump(fh0)
 
 
-def form_consensus_df(expression_df, signature_df, run_parameters):
-    """ compute the consensus df from the express dataframe and signature dataframe
+def assemble_similarity_df(expression_df, signature_df, run_parameters):
+    """ compute the similarity df from the express dataframe and signature dataframe
         formed by the bootstrap "temp_*" files.
 
     Args:
@@ -247,7 +241,7 @@ def form_consensus_df(expression_df, signature_df, run_parameters):
         signature_df: dataframe of signature data.
 
     Returns:
-        similarity_df: similarity_df with the value to be consensus matrix
+        similarity_df: similarity_df with the value to be similarity matrix
     """
 
     processing_method     = run_parameters['processing_method'    ]
@@ -329,7 +323,7 @@ def map_similarity_range(similarity_mat, axis_val):
     return similarity_mat
 
 
-def save_final_samples_signature(result_df, run_parameters):
+def save_final_samples_similarity(result_df, run_parameters):
     """ wtite .tsv file that assings a cluster number label to the sample_names.
 
     Args:

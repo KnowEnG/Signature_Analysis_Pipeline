@@ -38,7 +38,8 @@ def main():
     from knpackage.toolbox import get_run_parameters
     
     run_directory, run_file = get_run_directory_and_file(sys.argv)
-    run_parameters = get_run_parameters(run_directory, run_file)
+    run_parameters          = get_run_parameters(run_directory, run_file)
+
     SELECT[run_parameters["method"]](run_parameters)
 
 if __name__ == "__main__":
