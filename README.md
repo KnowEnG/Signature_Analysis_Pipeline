@@ -93,7 +93,7 @@ __***Follow steps 1-3 above then do the following:***__
  
 ### * Create run_paramters file  (YAML Format)
  ``` 
- Look for examples of run_parameters in the Gene_Signature_Pipeline/data/run_files zTEMPLATE_cc_net_cos.yml
+ Look for examples of run_parameters in the Gene_Signature_Pipeline/data/run_files zTEMPLATE_cc_net_spearman.yml
  ```
 ### * Modify run_paramters file  (YAML Format)
 Change processing_method to one of: serial, parallel depending on your machine.
@@ -113,7 +113,7 @@ set the data file targets to the files you want to run, and the parameters as ap
    
   * Run
    ```
-  python3 ../src/samples_signature.py -run_directory ./run_dir -run_file zTEMPLATE_cc_net_cos.yml
+  python3 ../src/samples_signature.py -run_directory ./run_dir -run_file zTEMPLATE_cc_net_spearman.yml
    ```
 
 * * * 
@@ -122,7 +122,8 @@ set the data file targets to the files you want to run, and the parameters as ap
 
 | **Key**                   | **Value**                                           | **Comments** |
 | ------------------------- | --------------------------------------------------- | ------------ |
-| method                    | **cos**, **cc_cos**, **net_cos** or **cc_net_cos**  | Choose similarity  method |
+| method                    | **similarity**, **cc_similarity**, **net_similarity** or **cc_net_similarity**  | Choose similarity  method |
+| similarity_measure        | **spearman**, **cos**                               | Choose correlation  measure |
 | gg_network_name_full_path | directory+gg_network_name                           | Path and file name of the 4 col network file |
 | spreadsheet_name_full_path| directory+spreadsheet_name                          | Path and file name of user supplied gene sets |
 | signature_name_full_path  | directory+signature_data_name                       | Path and file name of user supplied signature data |
