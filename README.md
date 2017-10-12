@@ -6,12 +6,12 @@ This pipeline performs network-based **signature analysis** on the columns of a 
 There are four clustering methods that one can choose from:
 
 
-| **Options**                                      | **Method**                           | **Parameters** |
-| ------------------------------------------------ | -------------------------------------| -------------- |
-| Signature                                        | cosine                               | cos            |
-| Consensus Signature                              | bootstrapping with cos               | cc_cos         |
-| Signature  with network regularization           | network-based cos                    | net_cos        |
-| Consensus Signature  with network regularization | bootstrapping with network-based cos | cc_net_cos     |
+| **Options**                                  | **Method**                           | **Parameters** |
+| ---------------------------------------------| -------------------------------------| -------------- |
+| Signature                                    | cosine                               | cos            |
+| Consensus Signature                          | bootstrapping with cos               | cc_cos         |
+| Signature  with network enrichment           | network-based cos                    | net_cos        |
+| Consensus Signature  with network enrichment | bootstrapping with network-based cos | cc_net_cos     |
 
 
 Note: all of the signture methods mentioned above use the cosine similarity (cos) as the main similarity algorithm.
@@ -63,9 +63,9 @@ make env_setup
 | **Command**         | **Option**                                              | 
 |:------------------- |:------------------------------------------------------- | 
 | make run_cos        | cosine similarity                                       |
-| make run_net_cos    | cosine similarity with network regularization           |
+| make run_net_cos    | cosine similarity with network enrichment               |
 | make run_cc_cos     | Consensus cosine similarity                             |
-| make run_cc_net_cos | Consensus cosine similarity with network regularization |
+| make run_cc_net_cos | Consensus cosine similarity with network enrichment     |
 
  
 * * * 
