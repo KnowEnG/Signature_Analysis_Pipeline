@@ -1,0 +1,30 @@
+# --------------------------------------------------------------------
+# - Analysis Method: similarity, cc_similarity, net_similarity, cc_net_similarity
+# --------------------------------------------------------------------
+method:                      net_similarity  
+
+# --------------------------------------------------------------------
+# - Similarity Measure: cosine, spearman
+# --------------------------------------------------------------------
+similarity_measure:          cosine
+
+# -----------------------------------------------------------------------
+# Gene x Sample Gene_Expression and Sigature Spreadsheets
+# Gene x Gene Network stored in 4 col format;   Gene x Set-id Spreadsheet
+# -----------------------------------------------------------------------
+spreadsheet_name_full_path:  ../data/spreadsheets/Hsap.nbs_OV.G.gene_som_mut.binary.a.df
+signature_name_full_path:    ../data/spreadsheets/Hsap.nbs_UCEC.G.gene_som_mut.binary.a.df
+gg_network_name_full_path:   ../data/networks/keg_ST90_4col.edge
+
+# -----------------------------------------------------------------------
+# directories for storing run results and temporary data
+# -----------------------------------------------------------------------
+results_directory:           ./run_dir/results
+tmp_directory:               ./run_dir/tmp
+
+# -----------------------------------------------------------------------
+# random walk with restart absolute max iterations; restart vector weight; delta norm loop exit;
+# -----------------------------------------------------------------------
+rwr_max_iterations:          100
+rwr_convergence_tolerence:   1.0e-4
+rwr_restart_probability:     0.7        # Vn+1 = alpha * N * Vn + (1-alpha) * Vo

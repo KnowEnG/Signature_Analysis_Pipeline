@@ -1,0 +1,21 @@
+# --------------------------------------------------------------------
+# - Analysis Method: similarity, cc_similarity, net_similarity, cc_net_similarity
+# --------------------------------------------------------------------
+method:                      similarity
+
+# --------------------------------------------------------------------
+# - Similarity Measure: cosine, spearman
+# --------------------------------------------------------------------
+similarity_measure:          cosine
+
+# -----------------------------------------------------------------------
+# Gene x Sample Gene_Expression and Sigature Spreadsheets
+# -----------------------------------------------------------------------
+spreadsheet_name_full_path:  ../data/spreadsheets/Hsap.nbs_OV.G.gene_som_mut.binary.a.df
+signature_name_full_path:    ../data/spreadsheets/Hsap.nbs_UCEC.G.gene_som_mut.binary.a.df
+
+# -----------------------------------------------------------------------
+# directories for storing run results and temporary data
+# -----------------------------------------------------------------------
+results_directory:           ./run_dir/results
+tmp_directory:               ./run_dir/tmp

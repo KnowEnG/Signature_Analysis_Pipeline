@@ -1,0 +1,21 @@
+# --------------------------------------------------------------------
+# - Analysis Method: similarity, cc_similarity, net_similarity, cc_net_similarity
+# --------------------------------------------------------------------
+method:                      similarity                 
+
+# --------------------------------------------------------------------
+# - Similarity Measure: cosine, spearman
+# --------------------------------------------------------------------
+similarity_measure:          spearman
+
+# -----------------------------------------------------------------------
+# Gene x Sample Gene_Expression and Sigature Spreadsheets
+# -----------------------------------------------------------------------
+spreadsheet_name_full_path:  ../data/spreadsheets/TEST_1_gene_sample.tsv
+signature_name_full_path:    ../data/spreadsheets/TEST_1_signature.tsv
+
+# -----------------------------------------------------------------------
+# directories for storing run results and temporary data
+# -----------------------------------------------------------------------
+results_directory:           ./run_dir/results
+tmp_directory:               ./run_dir/tmp
