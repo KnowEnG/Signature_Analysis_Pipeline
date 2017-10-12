@@ -329,8 +329,8 @@ def save_final_samples_similarity(result_df, run_parameters):
         result_df: result dataframe
         run_parameters: write path (run_parameters["results_directory"]).
     """
-    file_name_1 = get_output_file_name(run_parameters, 'result', 'viz')
-    result_df.to_csv(file_name_1, sep='\t', float_format='%g')
+    fn_result = get_output_file_name(run_parameters, 'result', 'viz')
+    result_df.to_csv(fn_result, sep='\t', float_format='%g')
 
 
 def get_output_file_name(run_parameters, prefix_string, suffix_string='', type_suffix='tsv'):
