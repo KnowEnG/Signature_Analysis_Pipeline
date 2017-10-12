@@ -3,7 +3,7 @@ This is the Knowledge Engine for Genomics (KnowEnG), an NIH BD2K Center of Excel
 
 This pipeline performs network-based **signature analysis** on the columns of a given spreadsheet, where spreadsheet's columns correspond to sample-labels and rows correspond to gene-labels.  The signature is based on correlating gene expression data (network smoothed) against known gene signature data.
 
-There are four clustering methods that one can choose from:
+There are four similarity methods that one can choose from:
 
 
 | **Options**                                  | **Method**                           | **Parameters** |
@@ -57,7 +57,7 @@ cd test
 make env_setup
 ```
 
-### 6. Use one of the following "make" commands to select and run a clustering option:
+### 6. Use one of the following "make" commands to select and run a similarity  option:
 
 
 | **Command**         | **Option**                                              | 
@@ -123,7 +123,7 @@ set the data file targets to the files you want to run, and the parameters as ap
 
 | **Key**                   | **Value**                                           | **Comments** |
 | ------------------------- | --------------------------------------------------- | ------------ |
-| method                    | **cos**, **cc_cos**, **net_cos** or **cc_net_cos**  | Choose clustering method |
+| method                    | **cos**, **cc_cos**, **net_cos** or **cc_net_cos**  | Choose similarity  method |
 | gg_network_name_full_path | directory+gg_network_name                           | Path and file name of the 4 col network file |
 | spreadsheet_name_full_path| directory+spreadsheet_name                          | Path and file name of user supplied gene sets |
 | signature_name_full_path  | directory+signature_data_name                       | Path and file name of user supplied signature data |
