@@ -59,12 +59,12 @@ make env_setup
 ### 6. Use one of the following "make" commands to select and run a similarity  option:
 
 
-| **Command**         | **Option**                                              | 
-|:------------------- |:------------------------------------------------------- | 
-| make run_cos        | cosine similarity                                       |
-| make run_net_cos    | cosine similarity with network enrichment               |
-| make run_cc_cos     | Consensus cosine similarity                             |
-| make run_cc_net_cos | Consensus cosine similarity with network enrichment     |
+| **Command**              | **Option**                                              | 
+|:-------------------      |:------------------------------------------------------- | 
+| make run_spearman        | spearman similarity                                     |
+| make run_net_spearman    | spearman similarity with network enrichment             |
+| make run_cc_spearman     | spearman similarity with bootstraps                     |
+| make run_cc_net_spearman | spearman similarity with bootstraps & network enrichment|
 
  
 * * * 
