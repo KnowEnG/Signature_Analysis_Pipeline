@@ -1,4 +1,4 @@
-FROM knowengdev/base_image:11_09_2016 
+FROM knowengdev/base_image:09_19_2017 
 MAINTAINER Dan Lanier <lanier4@illinois.edu>
 
 ENV SRC_LOC /home
@@ -7,7 +7,7 @@ ENV SRC_LOC /home
 RUN pip3 install -I knpackage dispy 
 
 # Clone from github
-RUN git clone https://github.com/KnowEnG-Research/Signature_Analysis_Pipeline.git ${SRC_LOC} 
+RUN git clone https://github.com/KnowEnG/Signature_Analysis_Pipeline.git ${SRC_LOC} 
 
 # Set up working directory
 WORKDIR ${SRC_LOC}
