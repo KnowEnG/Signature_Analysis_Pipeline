@@ -6,15 +6,14 @@ This pipeline performs network-based **signature analysis** on the columns of a 
 There are four similarity methods that one can choose from:
 
 
-| **Options**                                  | **Method**                           | **Parameters** |
-| ---------------------------------------------| -------------------------------------| -------------- |
-| Signature                                    | cosine                               | cos            |
-| Consensus Signature                          | bootstrapping with cos               | cc_cos         |
-| Signature  with network enrichment           | network-based cos                    | net_cos        |
-| Consensus Signature  with network enrichment | bootstrapping with network-based cos | cc_net_cos     |
+|                   |
+| similarity        |
+| net_similarity    |
+| cc_net_similarity |
 
 
-Note: all of the signture methods mentioned above use the cosine similarity (cos) as the main similarity algorithm.
+Note: all of the similarty "signture" methods mentioned above use either spearman or  cosine similarity as the main similarity algorithm.
+
 
 
 * * * 
