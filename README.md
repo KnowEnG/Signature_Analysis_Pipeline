@@ -3,17 +3,15 @@ This is the Knowledge Engine for Genomics (KnowEnG), an NIH BD2K Center of Excel
 
 This pipeline performs network-based **signature analysis** on the columns of a given spreadsheet, where spreadsheet's columns correspond to sample-labels and rows correspond to gene-labels.  The signature is based on correlating gene expression data (network enriched) against known gene signature data.
 
-There are four similarity methods that one can choose from:
+There are three similarity methods that one can choose from:
 
+- similarity        
+- net_similarity   
+- cc_net_similarity|
 
-|                   |
-| similarity        |
-| net_similarity    |
-| cc_net_similarity |
-
-
-Note: all of the similarty "signture" methods mentioned above use either spearman or  cosine similarity as the main similarity algorithm.
-
+and two correlation measures:
+- spearman 
+- cosine 
 
 
 * * * 
