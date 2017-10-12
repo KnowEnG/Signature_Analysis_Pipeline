@@ -145,7 +145,7 @@ signature_data_name =
 ## Description of Output files saved in results directory
 * * * 
 
-* Output files of all four methods save samples by signature heatmap with name **similarity_matrix_{method}_{timestamp}_viz.tsv**.</br>
+* Output files of all four methods save samples by signature similarity "correlation" with name **similarity_matrix_{method}_{timestamp}_viz.tsv**.</br>
 
  |                        |**signature 1**          |...                   |**signature m**       |
  | :--------------------: |:-----------------------:|:--------------------:|:--------------------:|
