@@ -135,7 +135,6 @@ set the data file targets to the files you want to run, and the parameters as ap
 | rows_sampling_fraction    | 0.8                                                 | Select 80% of spreadsheet rows|
 | number_of_bootstraps      | 4                                                   | Number of random samplings |
 | processing_method         | serial or parallel or distribute                    | Choose processing method |
-| parallelism               | number of cores to use in parallel processing       | Set number of cores for speed or memory |
 
 gg_network_name = STRING_experimental_gene_gene.edge</br>
 spreadsheet_name = ProGENI_rwr20_STExp_GDSC_500.rname.gxc.tsv</br>
