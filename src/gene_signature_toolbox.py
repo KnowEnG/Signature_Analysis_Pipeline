@@ -25,15 +25,19 @@ def run_similarity(run_parameters):
 
     expression_df       = kn.get_spreadsheet_df(expression_name)
     signature_df        = kn.get_spreadsheet_df(signature_name )
-
+    
     samples_names       = expression_df.columns
     signatures_names    =  signature_df.columns
+    signatures_names    = [i.split('.')[0] for i in signatures_names]
+    signature_df.columns= signatures_names
 
     similarity_mat = generate_similarity_mat(expression_df, signature_df,similarity_measure)
-    similarity_mat = map_similarity_range(similarity_mat, 0)
+    # similarity_mat = map_similarity_range(similarity_mat, 0)
     similarity_df  = pd.DataFrame(similarity_mat, index=samples_names, columns=signatures_names)
-
-    save_final_samples_similarity(similarity_df, run_parameters)
+    if(similarity_measure == "spearman"):
+        accuracy = calculate_accuracy(similarity_df)
+        print(accuracy)
+    save_final_samples_signature(similarity_df, run_parameters)
 
 
 def run_cc_similarity(run_parameters):
@@ -47,12 +51,20 @@ def run_cc_similarity(run_parameters):
 
     expression_name      = run_parameters["spreadsheet_name_full_path"]
     signature_name       = run_parameters["signature_name_full_path"  ]
+    similarity_measure  = run_parameters["similarity_measure"         ]
     number_of_bootstraps = run_parameters['number_of_bootstraps'      ]
     processing_method    = run_parameters['processing_method'         ]
 
     expression_df        = kn.get_spreadsheet_df(expression_name)
     signature_df         = kn.get_spreadsheet_df(signature_name )
 
+    samples_names       = expression_df.columns
+    signatures_names    =  signature_df.columns
+    signatures_names    = [i.split('.')[0] for i in signatures_names]
+    signature_df.columns= signatures_names
+
+    expression_mat      = expression_df.as_matrix()
+    signature_mat       =  signature_df.as_matrix()
     if   processing_method == 'serial':
          for sample in range(0, number_of_bootstraps):
            run_cc_similarity_signature_worker(expression_df, signature_df, run_parameters, sample)
@@ -63,8 +75,14 @@ def run_cc_similarity(run_parameters):
     else:
         raise ValueError('processing_method contains bad value.')
 
+    # consensus_df = form_consensus_df(run_parameters, expression_df, signature_df)
     similarity_df = assemble_similarity_df(expression_df, signature_df, run_parameters)
-    save_final_samples_similarity(similarity_df, run_parameters)
+
+    similarity_df  = pd.DataFrame(similarity_df.values, index=samples_names, columns=signatures_names)
+    if(similarity_measure == "spearman"):
+        accuracy = calculate_accuracy(similarity_df)
+        print(accuracy)
+    save_final_samples_signature(similarity_df, run_parameters)
 
     kn.remove_dir(run_parameters["tmp_directory"])
 
@@ -86,9 +104,11 @@ def run_net_similarity(run_parameters):
 
     samples_names       = expression_df.columns
     signatures_names    =  signature_df.columns
+    signatures_names    = [i.split('.')[0] for i in signatures_names]
+    signature_df.columns= signatures_names
 
     network_mat, unique_gene_names = kn.get_sparse_network_matrix(gg_network_name)
-    network_mat                    = kn.normalize_sparse_mat_by_diagonal(network_mat)
+    # network_mat                    = kn.normalize_sparse_mat_by_diagonal(network_mat)
     
     expression_df                  = kn.update_spreadsheet_df(expression_df, unique_gene_names)
     signature_df                   = kn.update_spreadsheet_df(signature_df, unique_gene_names)
@@ -103,10 +123,13 @@ def run_net_similarity(run_parameters):
     signature_df.iloc[:]  = signature_mat
 
     similarity_mat = generate_similarity_mat(expression_df, signature_df,similarity_measure)
-    similarity_mat = map_similarity_range(similarity_mat, 0)
+    # similarity_mat = map_similarity_range(similarity_mat, 0)
     similarity_df  = pd.DataFrame(similarity_mat, index=samples_names, columns=signatures_names)
+    if(similarity_measure == "spearman"):
+        accuracy = calculate_accuracy(similarity_df)
+        print(accuracy)
 
-    save_final_samples_similarity(similarity_df, run_parameters)
+    save_final_samples_signature(similarity_df, run_parameters)
 
 
 def run_cc_net_similarity(run_parameters):
@@ -131,9 +154,11 @@ def run_cc_net_similarity(run_parameters):
 
     samples_names        = expression_df.columns
     signatures_names     =  signature_df.columns
+    signatures_names     = [i.split('.')[0] for i in signatures_names]
+    signature_df.columns = signatures_names
 
     network_mat, unique_gene_names = kn.get_sparse_network_matrix(gg_network_name)
-    network_mat                    = kn.normalize_sparse_mat_by_diagonal(network_mat)
+    # network_mat                    = kn.normalize_sparse_mat_by_diagonal(network_mat)
     
     expression_df                  = kn.update_spreadsheet_df(expression_df, unique_gene_names)
     signature_df                   = kn.update_spreadsheet_df(signature_df, unique_gene_names)
@@ -157,9 +182,13 @@ def run_cc_net_similarity(run_parameters):
     else:
         raise ValueError('processing_method contains bad value.')
 
+    # consensus_df = form_consensus_df(run_parameters, expression_df, signature_df)
     similarity_df = assemble_similarity_df(expression_df, signature_df, run_parameters)
-    save_final_samples_similarity(similarity_df, run_parameters)
-
+    similarity_df  = pd.DataFrame(similarity_df.values, index=samples_names, columns=signatures_names)
+    if(similarity_measure == "spearman"):
+        accuracy = calculate_accuracy(similarity_df)
+        print(accuracy)
+    save_final_samples_signature(similarity_df, run_parameters)
     kn.remove_dir(run_parameters["tmp_directory"])
 
 
@@ -204,18 +233,14 @@ def run_cc_similarity_signature_worker(expression_df, signature_df, run_paramete
 
     rows_sampling_fraction = run_parameters["rows_sampling_fraction"]
     similarity_measure     = run_parameters['similarity_measure'   ]
-
     sampled_expression_df  = expression_df.sample(frac = rows_sampling_fraction,random_state=sample)
     sampled_signature_df   =  signature_df.sample(frac = rows_sampling_fraction,random_state=sample)
-
     sampled_similarity_mat = generate_similarity_mat(sampled_expression_df, sampled_signature_df, similarity_measure)
 
     save_a_signature_to_tmp(sampled_similarity_mat, run_parameters, sample)
-
-
+    
 def save_a_signature_to_tmp(sampled_similarity_mat, run_parameters, sequence_number):
     """ save a sampled_similarity_mat in temorary files with sequence_number appended names.
-
     Args:
         run_parameters: parmaeters including the "tmp_directory" name.
         sequence_number: temporary file name suffix.
@@ -229,16 +254,13 @@ def save_a_signature_to_tmp(sampled_similarity_mat, run_parameters, sequence_num
     with open(hname_e, 'wb') as fh0:
         sampled_similarity_mat.dump(fh0)
 
-
 def assemble_similarity_df(expression_df, signature_df, run_parameters):
     """ compute the similarity df from the express dataframe and signature dataframe
         formed by the bootstrap "temp_*" files.
-
     Args:
         run_parameters: parameter set dictionary with "tmp_directory" key.
         expression_df: dataframe of expression data.
         signature_df: dataframe of signature data.
-
     Returns:
         similarity_df: similarity_df with the value to be similarity matrix
     """
@@ -269,10 +291,11 @@ def assemble_similarity_df(expression_df, signature_df, run_parameters):
 
     similarity_mat /= number_of_bootstraps
 
-    similarity_mat  = map_similarity_range(similarity_mat, 0)
+    # similarity_mat  = map_similarity_range(similarity_mat, 0)
     similarity_df   = pd.DataFrame(similarity_mat, index=expression_names, columns=signatures_names)
 
     return similarity_df
+
 
 
 def generate_similarity_mat(expression_df, signature_df,similarity_measure):
@@ -296,33 +319,16 @@ def generate_similarity_mat(expression_df, signature_df,similarity_measure):
 
     if   (similarity_measure == "cosine" ):
           similarity_mat      = cosine_similarity(expression_mat.T, signature_mat.T)
+          # print(similarity_mat.shape)
     elif (similarity_measure == "spearman"):
           similarity_mat      = spearmanr(expression_mat, signature_mat)[0]
+          # print(expression_mat)
           similarity_mat      = np.abs(similarity_mat[0:nx,nx:] )
-
+          # print(similarity_mat.shape)
     return similarity_mat
 
 
-def map_similarity_range(similarity_mat, axis_val):
-    """Normalize similarity matrix via given axis
-
-    Args:
-        similarity_mat: sample1 x sample2 matrix.
-        axis_val: given axis.
-        
-    Returns:
-        similarity_mat: normalized similarity matrix with 0 and 1.
-    """
-    #max_value_row_index = np.argmax(similarity_mat, axis=axis_val)
-    #num_of_cols         =  len(similarity_mat[0])
-
-    #similarity_mat[max_value_row_index, range(num_of_cols)] = 1
-    #similarity_mat[similarity_mat!=1]                       = 0
-
-    return similarity_mat
-
-
-def save_final_samples_similarity(result_df, run_parameters):
+def save_final_samples_signature(result_df, run_parameters):
     """ wtite .tsv file that assings a cluster number label to the sample_names.
 
     Args:
@@ -375,3 +381,19 @@ def update_tmp_directory(run_parameters, tmp_dir):
 
     return run_parameters
 
+def calculate_accuracy(similarity_df):
+    """ Calculate accuracy given similarity dataframe and benchmark result
+
+    Args:
+        similarity_df: result dataframe from run_similarity methods
+    """
+    result = similarity_df.idxmax(axis=1, skipna=True)
+    benchmark = pd.read_csv('../data/spreadsheets/label_validation.txt', index_col=None, header=None, sep='\t')
+    ret_li = result.values
+    ben_li = benchmark.values.reshape((1,-1))[0]
+
+    common = ret_li==ben_li
+    common[common==True] = 1
+    common[common==False] = 0
+    accuracy = sum(common)/len(ret_li)
+    return accuracy
