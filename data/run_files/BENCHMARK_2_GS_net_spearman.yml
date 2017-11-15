@@ -8,13 +8,9 @@ method:                      net_similarity
 # --------------------------------------------------------------------
 similarity_measure:          spearman
 
-# -----------------------------------------------------------------------
-# Gene x Sample Gene_Expression and Sigature Spreadsheets
-# Gene x Gene Network stored in 4 col format;   Gene x Set-id Spreadsheet
-# -----------------------------------------------------------------------
-spreadsheet_name_full_path:  ../data/spreadsheets/Hsap.nbs_OV.G.gene_som_mut.binary.a.df
-signature_name_full_path:    ../data/spreadsheets/Hsap.nbs_UCEC.G.gene_som_mut.binary.a.df
-gg_network_name_full_path:   ../data/networks/keg_ST90_4col.edge
+spreadsheet_name_full_path: ../data/spreadsheets/Jinfeng_spreadsheet_sample_mapped.csv
+signature_name_full_path:   ../data/spreadsheets/Jinfeng_spreadsheet_signature_mapped.csv
+gg_network_name_full_path:  ../data/networks/keg_ST90_4col.edge
 
 # -----------------------------------------------------------------------
 # directories for storing run results and temporary data
