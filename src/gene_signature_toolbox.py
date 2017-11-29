@@ -51,7 +51,7 @@ def run_cc_similarity(run_parameters):
 
     expression_name      = run_parameters["spreadsheet_name_full_path"]
     signature_name       = run_parameters["signature_name_full_path"  ]
-    similarity_measure  = run_parameters["similarity_measure"         ]
+    similarity_measure   = run_parameters["similarity_measure"        ]
     number_of_bootstraps = run_parameters['number_of_bootstraps'      ]
     processing_method    = run_parameters['processing_method'         ]
 
@@ -233,10 +233,12 @@ def run_cc_similarity_signature_worker(expression_df, signature_df, run_paramete
 
     rows_sampling_fraction = run_parameters["rows_sampling_fraction"]
     similarity_measure     = run_parameters['similarity_measure'   ]
-    sampled_expression_df  = expression_df.sample(frac = rows_sampling_fraction,random_state=sample)
-    sampled_signature_df   =  signature_df.sample(frac = rows_sampling_fraction,random_state=sample)
-    sampled_similarity_mat = generate_similarity_mat(sampled_expression_df, sampled_signature_df, similarity_measure)
+    sampled_expression_df  = expression_df.sample(frac=rows_sampling_fraction, random_state=sample)
+    # sampled_signature_df   =  signature_df.sample(frac = rows_sampling_fraction,random_state=sample)
+    sampled_signature_df   = signature_df.loc[signature_df.index.isin(sampled_expression_df.index)]
 
+
+    sampled_similarity_mat = generate_similarity_mat(sampled_expression_df, sampled_signature_df, similarity_measure)
     save_a_signature_to_tmp(sampled_similarity_mat, run_parameters, sample)
     
 def save_a_signature_to_tmp(sampled_similarity_mat, run_parameters, sequence_number):
