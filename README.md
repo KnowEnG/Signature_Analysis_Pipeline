@@ -113,7 +113,7 @@ set the data file targets to the files you want to run, and the parameters as ap
    
   * Run
    ```
-  python3 ../src/samples_signature.py -run_directory ./run_dir -run_file zTEMPLATE_cc_net_spearman.yml
+  python3 ../src/gene_signature.py -run_directory ./run_dir -run_file zTEMPLATE_cc_net_spearman.yml
    ```
 
 * * * 
