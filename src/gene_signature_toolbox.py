@@ -34,9 +34,6 @@ def run_similarity(run_parameters):
     similarity_mat = generate_similarity_mat(expression_df, signature_df,similarity_measure)
     # similarity_mat = map_similarity_range(similarity_mat, 0)
     similarity_df  = pd.DataFrame(similarity_mat, index=samples_names, columns=signatures_names)
-    if(similarity_measure == "spearman"):
-        accuracy = calculate_accuracy(similarity_df)
-        print(accuracy)
     save_final_samples_signature(similarity_df, run_parameters)
 
 
@@ -79,9 +76,6 @@ def run_cc_similarity(run_parameters):
     similarity_df = assemble_similarity_df(expression_df, signature_df, run_parameters)
 
     similarity_df  = pd.DataFrame(similarity_df.values, index=samples_names, columns=signatures_names)
-    if(similarity_measure == "spearman"):
-        accuracy = calculate_accuracy(similarity_df)
-        print(accuracy)
     save_final_samples_signature(similarity_df, run_parameters)
 
     kn.remove_dir(run_parameters["tmp_directory"])
@@ -125,9 +119,6 @@ def run_net_similarity(run_parameters):
     similarity_mat = generate_similarity_mat(expression_df, signature_df,similarity_measure)
     # similarity_mat = map_similarity_range(similarity_mat, 0)
     similarity_df  = pd.DataFrame(similarity_mat, index=samples_names, columns=signatures_names)
-    if(similarity_measure == "spearman"):
-        accuracy = calculate_accuracy(similarity_df)
-        print(accuracy)
 
     save_final_samples_signature(similarity_df, run_parameters)
 
@@ -185,9 +176,6 @@ def run_cc_net_similarity(run_parameters):
     # consensus_df = form_consensus_df(run_parameters, expression_df, signature_df)
     similarity_df = assemble_similarity_df(expression_df, signature_df, run_parameters)
     similarity_df  = pd.DataFrame(similarity_df.values, index=samples_names, columns=signatures_names)
-    if(similarity_measure == "spearman"):
-        accuracy = calculate_accuracy(similarity_df)
-        print(accuracy)
     save_final_samples_signature(similarity_df, run_parameters)
     kn.remove_dir(run_parameters["tmp_directory"])
 
@@ -357,7 +345,6 @@ def get_output_file_name(run_parameters, prefix_string, suffix_string='', type_s
 
     output_file_name   = os.path.join(results_directory, prefix_string + '_' + method + '_' + similarity_measure)
     output_file_name   = kn.create_timestamped_filename(output_file_name) + '_' + suffix_string + '.' + type_suffix
-
     return output_file_name
 
 
