@@ -19,21 +19,20 @@ def verify_benchmark(measure, BENCHMARK_name_list, BENCHMARK_YML) :
     for f in All_files_in_results_dir:
         
         for BENCHMARK_name in BENCHMARK_name_list[:1]:
-          if BENCHMARK_name in f :
-              RESULT    = os.path.join(results_dir     , f                      )
-              BENCHMARK = os.path.join(verification_dir, BENCHMARK_name + '.tsv')
-              
-              if measure == "spearman":
+            if BENCHMARK_name in f :
+                RESULT    = os.path.join(results_dir     , f                      )
+                BENCHMARK = os.path.join(verification_dir, BENCHMARK_name + '.tsv')
+                
                 accuracy = verify_accuracy(RESULT)
                 if round(accuracy, 6) == BENCHMARK_name_list[1]:
-                  print(BENCHMARK,'\t\t', '______ Accuracy PASS ______' )
+                    print(BENCHMARK,'\t\t', '______ Accuracy PASS ______' )
                 else:
-                  print(BENCHMARK,'\t\t', '****** Accuracy FAIL ******' )
+                    print(BENCHMARK,'\t\t', '****** Accuracy FAIL ******' )
 
-              if filecmp.cmp(RESULT, BENCHMARK) == True:
-                  print(BENCHMARK,'\t\t', '______ PASS ______' )
-              else:
-                  print(BENCHMARK,'\t\t', '****** FAIL ******' )   
+                if filecmp.cmp(RESULT, BENCHMARK) == True:
+                    print(BENCHMARK,'\t\t', '______ PASS ______' )
+                else:
+                    print(BENCHMARK,'\t\t', '****** FAIL ******' )   
 
     return
 
@@ -82,18 +81,22 @@ def main():
                  'cosine': 
                            { 'similarity'      :[ 
                                       'BENCHMARK_1_GS_cos.yml'
-                                    , 'result_similarity_cosine'        ] 
+                                    , 'result_similarity_cosine'        
+                                    , 0.648855] 
 
                            ,'net_similarity'   :[  
                                       'BENCHMARK_2_GS_net_cos.yml'
-                                    , 'result_net_similarity_cosine'    ]
+                                    , 'result_net_similarity_cosine'    
+                                    , 0.641221]
 
                            ,'cc_similarity'    :[  
                                       'BENCHMARK_3_GS_cc_cos.yml'
-                                    , 'result_cc_similarity_cosine'     ]
+                                    , 'result_cc_similarity_cosine'     
+                                    , 0.641221]
                            ,'cc_net_similarity':[  
                                       'BENCHMARK_4_GS_cc_net_cos.yml'
-                                    , 'result_cc_net_similarity_cosine' ]
+                                    , 'result_cc_net_similarity_cosine' 
+                                    , 0.671756]
                           }
                 }
 
