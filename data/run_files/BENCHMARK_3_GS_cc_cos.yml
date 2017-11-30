@@ -11,8 +11,8 @@ similarity_measure:          cosine
 # -----------------------------------------------------------------------
 # Gene x Sample Gene_Expression and Sigature Spreadsheets
 # -----------------------------------------------------------------------
-spreadsheet_name_full_path:  ../data/spreadsheets/Hsap.nbs_OV.G.gene_som_mut.binary.a.df
-signature_name_full_path:    ../data/spreadsheets/Hsap.nbs_UCEC.G.gene_som_mut.binary.a.df
+spreadsheet_name_full_path: ../data/spreadsheets/Jinfeng_spreadsheet_sample.csv
+signature_name_full_path:   ../data/spreadsheets/Jinfeng_spreadsheet_signature.csv
 
 # -----------------------------------------------------------------------
 # directories for storing run results and temporary data
