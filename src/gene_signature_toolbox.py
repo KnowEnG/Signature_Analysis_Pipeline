@@ -5,9 +5,7 @@ import os
 import numpy as np
 import pandas as pd
 import knpackage.toolbox as kn
-import knpackage.distributed_computing_utils as dstutil
 
-from   sklearn.metrics import silhouette_score
 from   sklearn.metrics.pairwise import cosine_similarity
 from   scipy.stats              import spearmanr
 
@@ -35,6 +33,7 @@ def run_similarity(run_parameters):
     # similarity_mat = map_similarity_range(similarity_mat, 0)
     similarity_df  = pd.DataFrame(similarity_mat, index=samples_names, columns=signatures_names)
     save_final_samples_signature(similarity_df, run_parameters)
+    save_best_match_signature(similarity_df, run_parameters)
 
 
 def run_cc_similarity(run_parameters):
@@ -77,6 +76,7 @@ def run_cc_similarity(run_parameters):
 
     similarity_df  = pd.DataFrame(similarity_df.values, index=samples_names, columns=signatures_names)
     save_final_samples_signature(similarity_df, run_parameters)
+    save_best_match_signature(similarity_df, run_parameters)
 
     kn.remove_dir(run_parameters["tmp_directory"])
 
@@ -121,6 +121,7 @@ def run_net_similarity(run_parameters):
     similarity_df  = pd.DataFrame(similarity_mat, index=samples_names, columns=signatures_names)
 
     save_final_samples_signature(similarity_df, run_parameters)
+    save_best_match_signature(similarity_df, run_parameters)
 
 
 def run_cc_net_similarity(run_parameters):
@@ -177,6 +178,8 @@ def run_cc_net_similarity(run_parameters):
     similarity_df = assemble_similarity_df(expression_df, signature_df, run_parameters)
     similarity_df  = pd.DataFrame(similarity_df.values, index=samples_names, columns=signatures_names)
     save_final_samples_signature(similarity_df, run_parameters)
+    save_best_match_signature(similarity_df, run_parameters)
+
     kn.remove_dir(run_parameters["tmp_directory"])
 
 
@@ -327,6 +330,21 @@ def save_final_samples_signature(result_df, run_parameters):
     """
     fn_result = get_output_file_name(run_parameters, 'result', 'viz')
     result_df.to_csv(fn_result, sep='\t', float_format='%g')
+
+
+def nth_largest_setarr(ary, n=1):
+    # a : Input array
+    # n : We want n-max element position to be set to 1
+    output = np.zeros_like(ary)
+    output[np.arange(len(ary)), np.argpartition(ary,-n, axis=1)[:,-n]] = 1
+    return output
+
+def save_best_match_signature(result_df, run_parameters):
+    result_matrix = nth_largest_setarr(result_df.as_matrix())
+    best_match_df = pd.DataFrame(result_matrix, index=result_df.index, columns=result_df.columns)
+    fn_result = get_output_file_name(run_parameters, 'best_match', 'tsv')
+    best_match_df.to_csv(fn_result, sep='\t', float_format='%g')
+
 
 
 def get_output_file_name(run_parameters, prefix_string, suffix_string='', type_suffix='tsv'):
