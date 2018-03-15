@@ -322,7 +322,7 @@ def generate_similarity_mat(expression_df, signature_df,similarity_measure):
 
 
 def save_final_samples_signature(result_df, run_parameters):
-    """ wtite .tsv file that assings a cluster number label to the sample_names.
+    """ write .tsv file that assings a cluster number label to the sample_names.
 
     Args:
         result_df: result dataframe
@@ -333,16 +333,30 @@ def save_final_samples_signature(result_df, run_parameters):
 
 
 def nth_largest_setarr(ary, n=1):
-    # a : Input array
-    # n : We want n-max element position to be set to 1
+    ''' set the nth max element position in a row to be 1 and the rest to be 0
+    Args:
+        ary: Input array
+        n: Set the nth max element position to be 1
+
+    Returns:
+        output: modified numpy array
+    '''
     output = np.zeros_like(ary)
     output[np.arange(len(ary)), np.argpartition(ary,-n, axis=1)[:,-n]] = 1
     return output
 
+
 def save_best_match_signature(result_df, run_parameters):
+    ''' save the best match signature to file
+    Args:
+        result_df: result dataframe
+        run_parameters: write path (run_parameters["results_directory"]).
+    Returns:
+        NA
+    '''
     result_matrix = nth_largest_setarr(result_df.as_matrix())
     best_match_df = pd.DataFrame(result_matrix, index=result_df.index, columns=result_df.columns)
-    fn_result = get_output_file_name(run_parameters, 'best_match', 'tsv')
+    fn_result = get_output_file_name(run_parameters, 'best_match', 'viz')
     best_match_df.to_csv(fn_result, sep='\t', float_format='%g')
 
 

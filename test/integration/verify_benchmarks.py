@@ -15,25 +15,35 @@ def verify_benchmark(measure, BENCHMARK_name_list, BENCHMARK_YML) :
     os.system(run_command)
 
     All_files_in_results_dir = os.listdir(results_dir)
-
     for f in All_files_in_results_dir:
         
         for BENCHMARK_name in BENCHMARK_name_list[:1]:
-            if BENCHMARK_name in f :
+            # run checks on result_xxx files
+            BENCHMARK_result = 'result_' + BENCHMARK_name
+            if BENCHMARK_result in f :
                 RESULT    = os.path.join(results_dir     , f                      )
-                BENCHMARK = os.path.join(verification_dir, BENCHMARK_name + '.tsv')
-                
+                BENCHMARK_rst = os.path.join(verification_dir, BENCHMARK_result + '.tsv')
+
                 accuracy = verify_accuracy(RESULT)
                 if round(accuracy, 6) == BENCHMARK_name_list[1]:
-                    print(BENCHMARK,'\t\t', '______ Accuracy PASS ______' )
+                    print(BENCHMARK_rst,'\t\t', '______ Accuracy PASS ______' )
                 else:
-                    print(BENCHMARK,'\t\t', '****** Accuracy FAIL ******' )
+                    print(BENCHMARK_rst,'\t\t', '****** Accuracy FAIL ******' )
 
-                if filecmp.cmp(RESULT, BENCHMARK) == True:
-                    print(BENCHMARK,'\t\t', '______ PASS ______' )
+                if filecmp.cmp(RESULT, BENCHMARK_rst) == True:
+                    print(BENCHMARK_rst,'\t\t', '______ PASS ______')
                 else:
-                    print(BENCHMARK,'\t\t', '****** FAIL ******' )   
+                    print(BENCHMARK_rst,'\t\t', '****** FAIL ******')
 
+            # run checks on best_match_xxx files
+            BENCHMARK_best_match = 'best_match_' + BENCHMARK_name
+            if BENCHMARK_best_match in f:
+                RESULT = os.path.join(results_dir, f)
+                BENCHMARK_bmt = os.path.join(verification_dir, BENCHMARK_best_match + ".tsv")
+                if filecmp.cmp(RESULT, BENCHMARK_bmt) == True:
+                    print(BENCHMARK_bmt, '\t\t', '______ PASS ______')
+                else:
+                    print(BENCHMARK_bmt,'\t\t', '****** FAIL ******')
     return
 
 def verify_accuracy(file_name):
@@ -61,42 +71,43 @@ def main():
     BENCHMARK = {'spearman': 
                            { 'similarity'      :[ 
                                       'BENCHMARK_1_GS_spearman.yml'
-                                    , 'result_similarity_spearman'    
-                                    , 0.801527] 
+                                    , 'similarity_spearman'
+                                    , 0.801527]
 
                            ,'net_similarity'   :[  
                                       'BENCHMARK_2_GS_net_spearman.yml'
-                                    , 'result_net_similarity_spearman'
+                                    , 'net_similarity_spearman'
                                     , 0.793893]
 
                            ,'cc_similarity'    :[  
                                       'BENCHMARK_3_GS_cc_spearman.yml'
-                                    , 'result_cc_similarity_spearman' 
+                                    , 'cc_similarity_spearman'
                                     , 0.839695]
                            ,'cc_net_similarity':[  
                                       'BENCHMARK_4_GS_cc_net_spearman.yml'
-                                    , 'result_cc_net_similarity_spearman'
+                                    , 'cc_net_similarity_spearman'
                                     , 0.793893]
                            }, 
                  'cosine': 
                            { 'similarity'      :[ 
                                       'BENCHMARK_1_GS_cos.yml'
-                                    , 'result_similarity_cosine'        
-                                    , 0.648855] 
+                                    , 'similarity_cosine'
+                                            , 0.648855]
 
                            ,'net_similarity'   :[  
                                       'BENCHMARK_2_GS_net_cos.yml'
-                                    , 'result_net_similarity_cosine'    
-                                    , 0.641221]
+                                    , 'net_similarity_cosine'
+                               , 0.641221]
 
                            ,'cc_similarity'    :[  
                                       'BENCHMARK_3_GS_cc_cos.yml'
-                                    , 'result_cc_similarity_cosine'     
-                                    , 0.641221]
+                                    , 'cc_similarity_cosine'
+
+                               , 0.641221]
                            ,'cc_net_similarity':[  
                                       'BENCHMARK_4_GS_cc_net_cos.yml'
-                                    , 'result_cc_net_similarity_cosine' 
-                                    , 0.671756]
+                                    , 'cc_net_similarity_cosine'
+                               , 0.671756]
                           }
                 }
 
