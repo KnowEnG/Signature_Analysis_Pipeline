@@ -92,22 +92,21 @@ def main():
                            { 'similarity'      :[ 
                                       'BENCHMARK_1_GS_cos.yml'
                                     , 'similarity_cosine'
-                                            , 0.648855]
+                                    , 0.648855]
 
                            ,'net_similarity'   :[  
                                       'BENCHMARK_2_GS_net_cos.yml'
                                     , 'net_similarity_cosine'
-                               , 0.641221]
+                                    , 0.641221]
 
                            ,'cc_similarity'    :[  
                                       'BENCHMARK_3_GS_cc_cos.yml'
                                     , 'cc_similarity_cosine'
-
-                               , 0.641221]
+                                    , 0.641221]
                            ,'cc_net_similarity':[  
                                       'BENCHMARK_4_GS_cc_net_cos.yml'
                                     , 'cc_net_similarity_cosine'
-                               , 0.671756]
+                                    , 0.671756]
                           }
                 }
 
