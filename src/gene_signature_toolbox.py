@@ -356,7 +356,7 @@ def save_best_match_signature(result_df, run_parameters):
     '''
     result_matrix = nth_largest_setarr(result_df.as_matrix())
     best_match_df = pd.DataFrame(result_matrix, index=result_df.index, columns=result_df.columns)
-    fn_result = get_output_file_name(run_parameters, 'best_match', 'viz')
+    fn_result = get_output_file_name(run_parameters, 'Gene_to_TF_Association', 'viz')
     best_match_df.to_csv(fn_result, sep='\t', float_format='%g')
 
 
