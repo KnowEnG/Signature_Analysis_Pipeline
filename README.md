@@ -153,9 +153,11 @@ signature_data_name =
  | **sample n**           |float                    |...                   |float                 |
  
 
+
 * Output files of all four methods with name **Gene_to_TF_Association_{method}_{measure}_{timestamp}_viz.tsv**
+
  |                        |**signature 1**          |...                   |**signature m**       |
  | :--------------------: |:-----------------------:|:--------------------:|:--------------------:|
- | **sample 1**           |1                        |...                   |0                 |
+ | **sample 1**           |1                        |...                   |0                     |
  |...                     |...                      |...                   |...                   |
- | **sample n**           |0                        |...                   |1                 |
+ | **sample n**           |0                        |...                   |1                     |
