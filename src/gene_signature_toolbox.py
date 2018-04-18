@@ -30,7 +30,6 @@ def run_similarity(run_parameters):
     signature_df.columns= signatures_names
 
     similarity_mat = generate_similarity_mat(expression_df, signature_df,similarity_measure)
-    # similarity_mat = map_similarity_range(similarity_mat, 0)
     similarity_df  = pd.DataFrame(similarity_mat, index=samples_names, columns=signatures_names)
     save_final_samples_signature(similarity_df, run_parameters)
     save_best_match_signature(similarity_df, run_parameters)
@@ -117,7 +116,6 @@ def run_net_similarity(run_parameters):
     signature_df.iloc[:]  = signature_mat
 
     similarity_mat = generate_similarity_mat(expression_df, signature_df,similarity_measure)
-    # similarity_mat = map_similarity_range(similarity_mat, 0)
     similarity_df  = pd.DataFrame(similarity_mat, index=samples_names, columns=signatures_names)
 
     save_final_samples_signature(similarity_df, run_parameters)
@@ -284,7 +282,6 @@ def assemble_similarity_df(expression_df, signature_df, run_parameters):
 
     similarity_mat /= number_of_bootstraps
 
-    # similarity_mat  = map_similarity_range(similarity_mat, 0)
     similarity_df   = pd.DataFrame(similarity_mat, index=expression_names, columns=signatures_names)
 
     return similarity_df
@@ -312,12 +309,9 @@ def generate_similarity_mat(expression_df, signature_df,similarity_measure):
 
     if   (similarity_measure == "cosine" ):
           similarity_mat      = cosine_similarity(expression_mat.T, signature_mat.T)
-          # print(similarity_mat.shape)
     elif (similarity_measure == "spearman"):
           similarity_mat      = spearmanr(expression_mat, signature_mat)[0]
-          # print(expression_mat)
-          similarity_mat      = np.abs(similarity_mat[0:nx,nx:] )
-          # print(similarity_mat.shape)
+          similarity_mat      = similarity_mat[0:nx,nx:]
     return similarity_mat
 
 
