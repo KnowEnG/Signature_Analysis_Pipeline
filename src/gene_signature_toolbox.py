@@ -26,8 +26,6 @@ def run_similarity(run_parameters):
     
     samples_names       = expression_df.columns
     signatures_names    =  signature_df.columns
-    signatures_names    = [i.split('.')[0] for i in signatures_names]
-    signature_df.columns= signatures_names
 
     similarity_mat = generate_similarity_mat(expression_df, signature_df,similarity_measure)
     similarity_df  = pd.DataFrame(similarity_mat, index=samples_names, columns=signatures_names)
@@ -55,7 +53,6 @@ def run_cc_similarity(run_parameters):
 
     samples_names       = expression_df.columns
     signatures_names    =  signature_df.columns
-    signatures_names    = [i.split('.')[0] for i in signatures_names]
     signature_df.columns= signatures_names
 
     expression_mat      = expression_df.as_matrix()
@@ -70,7 +67,6 @@ def run_cc_similarity(run_parameters):
     else:
         raise ValueError('processing_method contains bad value.')
 
-    # consensus_df = form_consensus_df(run_parameters, expression_df, signature_df)
     similarity_df = assemble_similarity_df(expression_df, signature_df, run_parameters)
 
     similarity_df  = pd.DataFrame(similarity_df.values, index=samples_names, columns=signatures_names)
@@ -97,11 +93,8 @@ def run_net_similarity(run_parameters):
 
     samples_names       = expression_df.columns
     signatures_names    =  signature_df.columns
-    signatures_names    = [i.split('.')[0] for i in signatures_names]
-    signature_df.columns= signatures_names
 
     network_mat, unique_gene_names = kn.get_sparse_network_matrix(gg_network_name)
-    # network_mat                    = kn.normalize_sparse_mat_by_diagonal(network_mat)
     
     expression_df                  = kn.update_spreadsheet_df(expression_df, unique_gene_names)
     signature_df                   = kn.update_spreadsheet_df(signature_df, unique_gene_names)
@@ -144,11 +137,8 @@ def run_cc_net_similarity(run_parameters):
 
     samples_names        = expression_df.columns
     signatures_names     =  signature_df.columns
-    signatures_names     = [i.split('.')[0] for i in signatures_names]
-    signature_df.columns = signatures_names
 
     network_mat, unique_gene_names = kn.get_sparse_network_matrix(gg_network_name)
-    # network_mat                    = kn.normalize_sparse_mat_by_diagonal(network_mat)
     
     expression_df                  = kn.update_spreadsheet_df(expression_df, unique_gene_names)
     signature_df                   = kn.update_spreadsheet_df(signature_df, unique_gene_names)
@@ -172,7 +162,6 @@ def run_cc_net_similarity(run_parameters):
     else:
         raise ValueError('processing_method contains bad value.')
 
-    # consensus_df = form_consensus_df(run_parameters, expression_df, signature_df)
     similarity_df = assemble_similarity_df(expression_df, signature_df, run_parameters)
     similarity_df  = pd.DataFrame(similarity_df.values, index=samples_names, columns=signatures_names)
     save_final_samples_signature(similarity_df, run_parameters)
@@ -223,7 +212,6 @@ def run_cc_similarity_signature_worker(expression_df, signature_df, run_paramete
     rows_sampling_fraction = run_parameters["rows_sampling_fraction"]
     similarity_measure     = run_parameters['similarity_measure'   ]
     sampled_expression_df  = expression_df.sample(frac=rows_sampling_fraction, random_state=sample)
-    # sampled_signature_df   =  signature_df.sample(frac = rows_sampling_fraction,random_state=sample)
     sampled_signature_df   = signature_df.loc[signature_df.index.isin(sampled_expression_df.index)]
 
 
