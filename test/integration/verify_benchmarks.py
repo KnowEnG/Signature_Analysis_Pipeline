@@ -24,48 +24,21 @@ def verify_benchmark(measure, BENCHMARK_name_list, BENCHMARK_YML) :
                 RESULT    = os.path.join(results_dir     , f                      )
                 BENCHMARK_rst = os.path.join(verification_dir, BENCHMARK_result + '.tsv')
 
-                accuracy = verify_accuracy(RESULT)
-                if round(accuracy, 6) == BENCHMARK_name_list[1]:
-                    print(BENCHMARK_rst,'\t\t', '______ Accuracy PASS ______' )
-                else:
-                    print(BENCHMARK_rst,'\t\t', '****** Accuracy FAIL ******' )
-
                 if filecmp.cmp(RESULT, BENCHMARK_rst) == True:
                     print(BENCHMARK_rst,'\t\t', '______ PASS ______')
                 else:
                     print(BENCHMARK_rst,'\t\t', '****** FAIL ******')
 
-            # run checks on best_match_xxx files
-            BENCHMARK_best_match = 'best_match_' + BENCHMARK_name
-            if BENCHMARK_best_match in f:
+            # run checks on Gene_to_TF_Association_xxx files
+            BENCHMARK_Gene_to_TF_Association = 'Gene_to_TF_Association_' + BENCHMARK_name
+            if BENCHMARK_Gene_to_TF_Association in f:
                 RESULT = os.path.join(results_dir, f)
-                BENCHMARK_bmt = os.path.join(verification_dir, BENCHMARK_best_match + ".tsv")
+                BENCHMARK_bmt = os.path.join(verification_dir, BENCHMARK_Gene_to_TF_Association + ".tsv")
                 if filecmp.cmp(RESULT, BENCHMARK_bmt) == True:
                     print(BENCHMARK_bmt, '\t\t', '______ PASS ______')
                 else:
                     print(BENCHMARK_bmt,'\t\t', '****** FAIL ******')
     return
-
-def verify_accuracy(file_name):
-    """ Calculate accuracy given similarity dataframe and benchmark result
-
-    Args:
-        file_name: result dataframe file_name from run_similarity methods
-    """
-    similarity_df        = pd.read_csv(file_name, index_col=0, header=0, sep='\t')
-    similarity_names     =  similarity_df.columns
-    similarity_names     = [i.split('.')[0] for i in similarity_names]
-    similarity_df.columns= similarity_names
-    result    = similarity_df.idxmax(axis=1, skipna=True)
-    benchmark = pd.read_csv('../data/spreadsheets/label_validation.txt', index_col=None, header=None, sep='\t')
-    ret_li    = result.values
-    ben_li    = benchmark.values.reshape((1,-1))[0]
-
-    common = ret_li==ben_li
-    common[common==True] = 1
-    common[common==False] = 0
-    accuracy = sum(common)/len(ret_li)
-    return accuracy
 
 def main():
     BENCHMARK = {'spearman': 
