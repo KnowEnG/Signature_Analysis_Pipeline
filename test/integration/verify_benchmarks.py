@@ -35,11 +35,11 @@ def verify_benchmark(measure, BENCHMARK_name_list, BENCHMARK_YML) :
                 else:
                     print(BENCHMARK_rst,'\t\t', '****** FAIL ******')
 
-            # run checks on best_match_xxx files
-            BENCHMARK_best_match = 'best_match_' + BENCHMARK_name
-            if BENCHMARK_best_match in f:
+            # run checks on Gene_to_TF_Association_xxx files
+            BENCHMARK_Gene_to_TF_Association = 'Gene_to_TF_Association_' + BENCHMARK_name
+            if BENCHMARK_Gene_to_TF_Association in f:
                 RESULT = os.path.join(results_dir, f)
-                BENCHMARK_bmt = os.path.join(verification_dir, BENCHMARK_best_match + ".tsv")
+                BENCHMARK_bmt = os.path.join(verification_dir, BENCHMARK_Gene_to_TF_Association + ".tsv")
                 if filecmp.cmp(RESULT, BENCHMARK_bmt) == True:
                     print(BENCHMARK_bmt, '\t\t', '______ PASS ______')
                 else:
