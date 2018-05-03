@@ -180,13 +180,15 @@ def run_cc_net_similarity(run_parameters):
     else:
         raise ValueError('processing_method contains bad value.')
 
-    similarity_df = assemble_similarity_df(expression_df, signature_df, run_parameters)
+    similarity_df         = assemble_similarity_df(expression_df, signature_df, run_parameters)
+    similarity_df_mat     =similarity_df.values
     # --------------
-    similarity_df  = pd.DataFrame(similarity_df.values, index=samples_names, columns=signatures_names)
-    save_final_samples_signature(similarity_df, run_parameters)
-    save_best_match_signature(similarity_df, run_parameters)
 
-    kn.remove_dir(run_parameters["tmp_directory"])
+    similarity_df  = pd.DataFrame( similarity_mat, index = samples_names, columns = signatures_names )
+    save_final_samples_signature ( similarity_df,  run_parameters                                    )
+    save_best_match_signature    ( similarity_df,  run_parameters                                    )
+
+    kn.remove_dir(tmp_dir)
 
 
 def find_and_save_cc_similarity_parallel(expression_df, signature_df, run_parameters, local_parallelism):
