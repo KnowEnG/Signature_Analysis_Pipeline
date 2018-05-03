@@ -237,13 +237,16 @@ def run_cc_similarity_signature_worker(expression_df, signature_df, run_paramete
     sampled_signature_df   =  signature_df.loc[signature_df.index.isin(sampled_expression_df.index)]
 
 
+    # --------------
     sampled_similarity_mat = generate_similarity_mat(sampled_expression_df, sampled_signature_df, similarity_measure)
+    # --------------
 
     save_a_signature_to_tmp(sampled_similarity_mat, run_parameters, sample)
     
 
 def save_a_signature_to_tmp(sampled_similarity_mat, run_parameters, sequence_number):
     """ save a sampled_similarity_mat in temorary files with sequence_number appended names.
+
     Args:
         run_parameters: parmaeters including the "tmp_directory" name.
         sequence_number: temporary file name suffix.
@@ -259,6 +262,7 @@ def save_a_signature_to_tmp(sampled_similarity_mat, run_parameters, sequence_num
 def assemble_similarity_df(expression_df, signature_df, run_parameters):
     """ compute the similarity df from the express dataframe and signature dataframe
         formed by the bootstrap "temp_*" files.
+
     Args:
         run_parameters: parameter set dictionary with "tmp_directory" key.
         expression_df: dataframe of expression data.
@@ -344,6 +348,7 @@ def save_final_expressions_signature(result_df, run_parameters):
 
 def nth_largest_setarr(ary, n=1):
     """ set the nth max element position in a row to be 1 and the rest to be 0
+
     Args:
         ary: Input array
         n: Set the nth max element position to be 1
@@ -358,6 +363,7 @@ def nth_largest_setarr(ary, n=1):
 
 def save_best_match_signature(result_df, run_parameters):
     """ save the best match signature to file
+
     Args:
         result_df: result dataframe
         run_parameters: write path (run_parameters["results_directory"]).
@@ -373,6 +379,7 @@ def save_best_match_signature(result_df, run_parameters):
 
 def get_output_file_name(run_parameters, prefix_string, suffix_string='', type_suffix='tsv'):
     """ get the full directory / filename for writing
+
     Args:
         run_parameters: dictionary with keys: "results_directory", "method" and "correlation_measure"
         prefix_string:  the first letters of the ouput file name
