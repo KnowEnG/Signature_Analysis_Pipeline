@@ -27,6 +27,13 @@ def run_similarity(run_parameters):
     expressions_names     = expression_df.columns
     signatures_names      =  signature_df.columns
 
+    expressions_genes     = expression_df.index
+    signatures_genes      =  signature_df.index
+
+    common_gene_names     = kn.find_common_node_names(expressions_names, signatures_names)
+    expression_df         = kn.update_spreadsheet_df (expression_df    ,                   common_gene_names)
+    signature_df          = kn.update_spreadsheet_df (                   signature_df    , common_gene_names)
+
     # --------------
     similarity_mat        = generate_similarity_mat(expression_df, signature_df,similarity_measure)
     # --------------
@@ -331,6 +338,9 @@ def generate_similarity_mat(expression_df, signature_df,similarity_measure):
     elif (similarity_measure == "spearman"):
           similarity_mat      = spearmanr(expression_mat, signature_mat)[0]
           similarity_mat      = similarity_mat[0:nx,nx:]
+
+    elif (similarity_measure == "pearson"):
+          similarity_mat      = pearsonr(expression_mat, signature_mat)
 
     return similarity_mat
 
