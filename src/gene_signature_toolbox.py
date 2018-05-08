@@ -30,9 +30,10 @@ def run_similarity(run_parameters):
     expressions_genes     = expression_df.index
     signatures_genes      =  signature_df.index
 
-    common_gene_names     = kn.find_common_node_names(expressions_names, signatures_names)
-    expression_df         = kn.update_spreadsheet_df (expression_df    ,                   common_gene_names)
-    signature_df          = kn.update_spreadsheet_df (                   signature_df    , common_gene_names)
+    common_gene_names     = kn.find_common_node_names(expressions_genes, signatures_genes)
+
+    expression_df         = kn.update_spreadsheet_df(expression_df, common_gene_names)
+    signature_df          = kn.update_spreadsheet_df( signature_df, common_gene_names)
 
     # --------------
     similarity_mat        = generate_similarity_mat(expression_df, signature_df,similarity_measure)
