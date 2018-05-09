@@ -6,9 +6,14 @@ method:                      similarity
 # --------------------------------------------------------------------
 # - Similarity Measure: cosine, spearman, pearson
 # --------------------------------------------------------------------
-similarity_measure:          spearman
-spreadsheet_name_full_path: ../data/spreadsheets/Jinfeng_spreadsheet_sample.csv
-signature_name_full_path:   ../data/spreadsheets/Jinfeng_spreadsheet_signature.csv
+similarity_measure:          pearson
+
+# -----------------------------------------------------------------------
+# Gene x Sample Gene_Expression and Sigature Spreadsheets
+# -----------------------------------------------------------------------
+spreadsheet_name_full_path:  ../data/spreadsheets/TEST_1_gene_sample_pearson.tsv
+signature_name_full_path:    ../data/spreadsheets/TEST_1_signature_pearson.tsv
+
 # -----------------------------------------------------------------------
 # directories for storing run results and temporary data
 # -----------------------------------------------------------------------

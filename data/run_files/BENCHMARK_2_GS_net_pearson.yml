@@ -6,7 +6,7 @@ method:                      net_similarity
 # --------------------------------------------------------------------
 # - Similarity Measure: cosine, spearman, pearson
 # --------------------------------------------------------------------
-similarity_measure:          spearman
+similarity_measure:          pearson
 
 spreadsheet_name_full_path: ../data/spreadsheets/Jinfeng_spreadsheet_sample_mapped.csv
 signature_name_full_path:   ../data/spreadsheets/Jinfeng_spreadsheet_signature_mapped.csv
