@@ -25,7 +25,7 @@ clean_dir_recursively:
 # ----------------------------------------------------------------
 # Large Benchmarks RUN Section                                   -
 # ----------------------------------------------------------------
-run_all_bench: run_spearman run_net_spearman run_cc_spearman run_cc_net_spearman  run_cos      run_net_cos      run_cc_cos      run_cc_net_cos
+run_all_bench: run_spearman run_net_spearman run_cc_spearman run_cc_net_spearman  run_cos      run_net_cos      run_cc_cos      run_cc_net_cos run_pearson run_net_pearson run_cc_pearson run_cc_net_pearson
 
 run_spearman:
 	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file BENCHMARK_1_GS_spearman.yml
@@ -38,6 +38,18 @@ run_cc_spearman:
 
 run_cc_net_spearman:
 	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file BENCHMARK_4_GS_cc_net_spearman.yml
+
+run_pearson:
+	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file BENCHMARK_1_GS_pearson.yml
+
+run_net_pearson:
+	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file BENCHMARK_2_GS_net_pearson.yml
+
+run_cc_pearson:
+	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file BENCHMARK_3_GS_cc_pearson.yml
+
+run_cc_net_pearson:
+	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file BENCHMARK_4_GS_cc_net_pearson.yml
 
 run_cos:
 	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file BENCHMARK_1_GS_cos.yml
@@ -55,7 +67,8 @@ run_cc_net_cos:
 # Small Benchmarks RUN Section                                   -
 # ----------------------------------------------------------------
 run_all_tests: run_cos_test run_net_cos_test  run_cc_cos_test  run_cc_net_cos_test \
-		run_spearman_test run_net_spearman_test run_cc_spearman_test  run_cc_net_spearman_test
+		run_spearman_test run_net_spearman_test run_cc_spearman_test  run_cc_net_spearman_test \
+		run_pearson_test run_net_pearson_test run_cc_pearson_test  run_cc_net_pearson_test
 
 run_cos_test:
 	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file TEST_1_GS_cos.yml
@@ -80,6 +93,18 @@ run_cc_spearman_test:
 
 run_cc_net_spearman_test:
 	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file TEST_4_GS_cc_net_spearman.yml
+
+run_pearson_test:
+	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file TEST_1_GS_pearson.yml
+
+run_net_pearson_test:
+	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file TEST_2_GS_net_pearson.yml
+
+run_cc_pearson_test:
+	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file TEST_3_GS_cc_pearson.yml
+
+run_cc_net_pearson_test:
+	python3 $(SCRIPT) -run_directory $(RUN_DIR) -run_file TEST_4_GS_cc_net_pearson.yml
 
 # ----------------------------------------------------------------
 # - VERIFICATION TESTS RUN SECTION                               -
