@@ -46,12 +46,10 @@ def main():
                                       'BENCHMARK_1_GS_spearman.yml'
                                     , 'similarity_spearman'
                                     , 0.801527]
-
                            ,'net_similarity'   :[  
                                       'BENCHMARK_2_GS_net_spearman.yml'
                                     , 'net_similarity_spearman'
                                     , 0.793893]
-
                            ,'cc_similarity'    :[  
                                       'BENCHMARK_3_GS_cc_spearman.yml'
                                     , 'cc_similarity_spearman'
@@ -61,17 +59,33 @@ def main():
                                     , 'cc_net_similarity_spearman'
                                     , 0.793893]
                            }, 
+                 'pearson':
+                           { 'similarity'      :[
+                                      'BENCHMARK_1_GS_pearson.yml'
+                                    , 'similarity_pearson'
+                                    , 0.0]
+                           ,'net_similarity'   :[
+                                      'BENCHMARK_2_GS_net_pearson.yml'
+                                    , 'net_similarity_pearson'
+                                    , 0.0]
+                           ,'cc_similarity'    :[
+                                      'BENCHMARK_3_GS_cc_pearson.yml'
+                                    , 'cc_similarity_pearson'
+                                    , 0.0]
+                           ,'cc_net_similarity':[
+                                      'BENCHMARK_4_GS_cc_net_pearson.yml'
+                                    , 'cc_net_similarity_pearson'
+                                    , 0.0]
+                           },
                  'cosine': 
                            { 'similarity'      :[ 
                                       'BENCHMARK_1_GS_cos.yml'
                                     , 'similarity_cosine'
                                     , 0.648855]
-
                            ,'net_similarity'   :[  
                                       'BENCHMARK_2_GS_net_cos.yml'
                                     , 'net_similarity_cosine'
                                     , 0.641221]
-
                            ,'cc_similarity'    :[  
                                       'BENCHMARK_3_GS_cc_cos.yml'
                                     , 'cc_similarity_cosine'
