@@ -8,6 +8,7 @@ import knpackage.toolbox as kn
 
 from   sklearn.metrics.pairwise import cosine_similarity
 from   scipy.stats              import spearmanr
+from   scipy.stats              import pearsonr
 
 
 def run_similarity(run_parameters):
@@ -24,24 +25,16 @@ def run_similarity(run_parameters):
     expression_df         = kn.get_spreadsheet_df(expression_name)
     signature_df          = kn.get_spreadsheet_df(signature_name )
     
-    expressions_names     = expression_df.columns
-    signatures_names      =  signature_df.columns
+    expression_col_names  = expression_df.columns
+    signature_col_names   =  signature_df.columns
 
-    expressions_genes     = expression_df.index
-    signatures_genes      =  signature_df.index
-
-    common_gene_names     = kn.find_common_node_names(expressions_genes, signatures_genes)
-
-    expression_df         = kn.update_spreadsheet_df(expression_df, common_gene_names)
-    signature_df          = kn.update_spreadsheet_df( signature_df, common_gene_names)
-
-    # --------------
+    # ---------------------------------------------
     similarity_mat        = generate_similarity_mat(expression_df, signature_df,similarity_measure)
-    # --------------
+    # ---------------------------------------------
 
-    similarity_df  = pd.DataFrame( similarity_mat, index = expressions_names, columns = signatures_names )
-    save_final_expressions_signature ( similarity_df,  run_parameters                                    )
-    save_best_match_signature        ( similarity_df,  run_parameters                                    )
+    similarity_df  = pd.DataFrame( similarity_mat, index = expression_col_names, columns = signature_col_names )
+    save_final_expression_signature( similarity_df,  run_parameters                                            )
+    save_best_match_signature      ( similarity_df,  run_parameters                                            )
 
 
 def run_cc_similarity(run_parameters):
@@ -64,11 +57,9 @@ def run_cc_similarity(run_parameters):
     expression_df         = kn.get_spreadsheet_df(expression_name)
     signature_df          = kn.get_spreadsheet_df(signature_name )
 
-    expressions_names     = expression_df.columns
-    signatures_names      =  signature_df.columns
+    expression_col_names  = expression_df.columns
+    signature_col_names   =  signature_df.columns
 
-#    signature_df.columns  = signatures_names
- 
     expression_mat        = expression_df.as_matrix()
     signature_mat         =  signature_df.as_matrix()
 
@@ -85,9 +76,9 @@ def run_cc_similarity(run_parameters):
     similarity_mat        = similarity_df.values
     # --------------
 
-    similarity_df  = pd.DataFrame( similarity_mat, index = expressions_names, columns = signatures_names )
-    save_final_expressions_signature ( similarity_df,  run_parameters                                    )
-    save_best_match_signature        ( similarity_df,  run_parameters                                    )
+    similarity_df  = pd.DataFrame( similarity_mat, index = expression_col_names, columns = signature_col_names )
+    save_final_expression_signature( similarity_df,  run_parameters                                            )
+    save_best_match_signature      ( similarity_df,  run_parameters                                            )
 
     kn.remove_dir(run_parameters["tmp_directory"])
 
@@ -107,13 +98,15 @@ def run_net_similarity(run_parameters):
     expression_df         = kn.get_spreadsheet_df(expression_name)
     signature_df          = kn.get_spreadsheet_df( signature_name)
 
-    expressions_names     = expression_df.columns
-    signatures_names      =  signature_df.columns
+    expression_col_names  = expression_df.columns
+    signature_col_names   =  signature_df.columns
 
+    #---------------------
     network_mat,          \
     unique_gene_names     = kn.get_sparse_network_matrix(gg_network_name)
     expression_df         = kn.update_spreadsheet_df(expression_df, unique_gene_names)
     signature_df          = kn.update_spreadsheet_df( signature_df, unique_gene_names)
+    #---------------------
 
     expression_mat        = expression_df.as_matrix()
     signature_mat         =  signature_df.as_matrix()
@@ -127,14 +120,14 @@ def run_net_similarity(run_parameters):
     expression_df.iloc[:] = expression_mat
     signature_df.iloc [:] = signature_mat
 
-    # --------------
+    # ---------------------------------------------
     similarity_mat        = generate_similarity_mat(expression_df, signature_df,similarity_measure)
-    # --------------
+    # ---------------------------------------------
 
 
-    similarity_df  = pd.DataFrame( similarity_mat, index = expressions_names, columns = signatures_names )
-    save_final_expressions_signature ( similarity_df,  run_parameters                                    )
-    save_best_match_signature        ( similarity_df,  run_parameters                                    )
+    similarity_df  = pd.DataFrame( similarity_mat, index = expression_col_names, columns = signature_col_names )
+    save_final_expression_signature( similarity_df,  run_parameters                                            )
+    save_best_match_signature      ( similarity_df,  run_parameters                                            )
 
 
 def run_cc_net_similarity(run_parameters):
@@ -160,14 +153,16 @@ def run_cc_net_similarity(run_parameters):
     expression_df         = kn.get_spreadsheet_df(expression_name)
     signature_df          = kn.get_spreadsheet_df(signature_name )
 
-    expressions_names     = expression_df.columns
-    signatures_names      =  signature_df.columns
+    expression_col_names  = expression_df.columns
+    signature_col_names   =  signature_df.columns
 
+    #---------------------
     network_mat,          \
     unique_gene_names     = kn.get_sparse_network_matrix(gg_network_name)
     
     expression_df         = kn.update_spreadsheet_df(expression_df, unique_gene_names)
     signature_df          = kn.update_spreadsheet_df(signature_df, unique_gene_names)
+    #---------------------
 
     expression_mat        = expression_df.as_matrix()
     signature_mat         = signature_df.as_matrix()
@@ -193,9 +188,9 @@ def run_cc_net_similarity(run_parameters):
     similarity_mat        = similarity_df.values
     # --------------
 
-    similarity_df  = pd.DataFrame( similarity_mat, index = expressions_names, columns = signatures_names )
-    save_final_expressions_signature ( similarity_df,  run_parameters                                    )
-    save_best_match_signature        ( similarity_df,  run_parameters                                    )
+    similarity_df  = pd.DataFrame( similarity_mat, index = expression_col_names, columns = signature_col_names )
+    save_final_expression_signature( similarity_df,  run_parameters                                            )
+    save_best_match_signature      ( similarity_df,  run_parameters                                            )
 
     kn.remove_dir(run_parameters["tmp_directory"])
 
@@ -245,9 +240,9 @@ def run_cc_similarity_signature_worker(expression_df, signature_df, run_paramete
     sampled_signature_df   =  signature_df.loc[signature_df.index.isin(sampled_expression_df.index)]
 
 
-    # --------------
+    # ----------------------------------------------
     sampled_similarity_mat = generate_similarity_mat(sampled_expression_df, sampled_signature_df, similarity_measure)
-    # --------------
+    # ----------------------------------------------
 
     save_a_signature_to_tmp(sampled_similarity_mat, run_parameters, sample)
     
@@ -290,12 +285,10 @@ def assemble_similarity_df(expression_df, signature_df, run_parameters):
     else:
         tmp_dir = tmp_directory
         
-    dir_list         = os.listdir(tmp_dir)
-
-    expression_names = expression_df.columns
-    signatures_names =  signature_df.columns
-
-    similarity_mat   = np.zeros((expression_names.shape[0], signatures_names.shape[0]))
+    dir_list             = os.listdir(tmp_dir)
+    expression_col_names = expression_df.columns
+    signature_col_names  =  signature_df.columns
+    similarity_mat       = np.zeros( (expression_col_names.shape[0], signature_col_names.shape[0]) )
 
     for tmp_f in dir_list:
         if tmp_f[0:8] == 'tmp_h_e_':
@@ -307,7 +300,7 @@ def assemble_similarity_df(expression_df, signature_df, run_parameters):
 
     similarity_mat /= number_of_bootstraps
 
-    similarity_df   = pd.DataFrame(similarity_mat, index=expression_names, columns=signatures_names)
+    similarity_df   = pd.DataFrame(similarity_mat, index=expression_col_names, columns=signature_col_names)
 
     return similarity_df
 
@@ -341,13 +334,30 @@ def generate_similarity_mat(expression_df, signature_df,similarity_measure):
           similarity_mat      = similarity_mat[0:nx,nx:]
 
     elif (similarity_measure == "pearson"):
-          similarity_mat      = pearsonr(expression_mat, signature_mat)
+          similarity_mat      = get_pearsonr(expression_mat, signature_mat)
+
 
     return similarity_mat
 
 
-def save_final_expressions_signature(result_df, run_parameters):
-    """ write .tsv file that assings a cluster number label to the expression_names.
+def get_pearsonr(mat_1, mat_2) :
+    """ Calculates pearson correlation between two matrices
+
+    Args:
+        expression_mat: 
+        signature_mat: 
+    """
+    nrows          = mat_1.shape[1]
+    ncols          = mat_2.shape[1]
+    pearson_mat    = np.zeros([nrows,ncols])
+    for i in range(nrows):
+        for j in range(ncols):
+            pearson_mat [i,j] = pearsonr(mat_1[:,i],mat_2[:,j])[0]
+
+    return pearson_mat
+
+def save_final_expression_signature(result_df, run_parameters):
+    """ write .tsv file that assings a cluster number label to the expression_col_names.
 
     Args:
         result_df: result dataframe
