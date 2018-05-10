@@ -4,7 +4,7 @@
 method:                      net_similarity             
 
 # --------------------------------------------------------------------
-# - Similarity Measure: cosine, spearman
+# - Similarity Measure: cosine, spearman, pearson
 # --------------------------------------------------------------------
 similarity_measure:          cosine
 

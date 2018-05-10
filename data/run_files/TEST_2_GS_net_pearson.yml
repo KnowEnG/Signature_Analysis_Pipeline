@@ -1,16 +1,20 @@
 # --------------------------------------------------------------------
 # - Analysis Method: similarity, cc_similarity, net_similarity, cc_net_similarity
 # --------------------------------------------------------------------
-method:                      net_similarity                 
+method:                      net_similarity             
 
 # --------------------------------------------------------------------
 # - Similarity Measure: cosine, spearman, pearson
 # --------------------------------------------------------------------
-similarity_measure:          spearman
+similarity_measure:          pearson
 
-spreadsheet_name_full_path: ../data/spreadsheets/Jinfeng_spreadsheet_sample_mapped.csv
-signature_name_full_path:   ../data/spreadsheets/Jinfeng_spreadsheet_signature_mapped.csv
-gg_network_name_full_path:  ../data/networks/keg_ST90_4col.edge
+# -----------------------------------------------------------------------
+# Gene x Sample Gene_Expression and Sigature Spreadsheets
+# Gene x Gene Network stored in 4 col format;   Gene x Set-id Spreadsheet
+# -----------------------------------------------------------------------
+spreadsheet_name_full_path:  ../data/spreadsheets/TEST_1_gene_sample_pearson.tsv
+signature_name_full_path:    ../data/spreadsheets/TEST_1_signature_pearson.tsv
+gg_network_name_full_path:   ../data/networks/TEST_1_gene_gene.edge
 
 # -----------------------------------------------------------------------
 # directories for storing run results and temporary data

@@ -1,16 +1,14 @@
 # --------------------------------------------------------------------
 # - Analysis Method: similarity, cc_similarity, net_similarity, cc_net_similarity
 # --------------------------------------------------------------------
-method:                      net_similarity                 
+method:                      cc_similarity                 
 
 # --------------------------------------------------------------------
-# - Similarity Measure: cosine, spearman, pearson
+# - Similarity Measure: cosine, spearman, pearson, pearson
 # --------------------------------------------------------------------
-similarity_measure:          spearman
-
-spreadsheet_name_full_path: ../data/spreadsheets/Jinfeng_spreadsheet_sample_mapped.csv
-signature_name_full_path:   ../data/spreadsheets/Jinfeng_spreadsheet_signature_mapped.csv
-gg_network_name_full_path:  ../data/networks/keg_ST90_4col.edge
+similarity_measure:          pearson
+spreadsheet_name_full_path: ../data/spreadsheets/Jinfeng_spreadsheet_sample.csv
+signature_name_full_path:   ../data/spreadsheets/Jinfeng_spreadsheet_signature.csv
 
 # -----------------------------------------------------------------------
 # directories for storing run results and temporary data
@@ -19,8 +17,13 @@ results_directory:           ./run_dir/results
 tmp_directory:               ./run_dir/tmp
 
 # -----------------------------------------------------------------------
-# random walk with restart absolute max iterations; restart vector weight; delta norm loop exit;
+# fraction of rows and  number of bootstraps 
 # -----------------------------------------------------------------------
-rwr_max_iterations:          100
-rwr_convergence_tolerence:   1.0e-4
-rwr_restart_probability:     0.7        # Vn+1 = alpha * N * Vn + (1-alpha) * Vo
+rows_sampling_fraction:     0.7        # 0.8 means 80% of rows
+number_of_bootstraps:       4
+
+# -----------------------------------------------------------------------
+# Processing_method: serial, parallel
+# -----------------------------------------------------------------------
+processing_method:           serial
+cluster_shared_volumn:       none
