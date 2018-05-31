@@ -60,8 +60,8 @@ def run_cc_similarity(run_parameters):
     expression_col_names  = expression_df.columns
     signature_col_names   =  signature_df.columns
 
-    expression_mat        = expression_df.as_matrix()
-    signature_mat         =  signature_df.as_matrix()
+    expression_mat        = expression_df.values
+    signature_mat         =  signature_df.values
 
     # --------------
     if   processing_method == 'serial':
@@ -108,8 +108,8 @@ def run_net_similarity(run_parameters):
     signature_df          = kn.update_spreadsheet_df( signature_df, unique_gene_names)
     #---------------------
 
-    expression_mat        = expression_df.as_matrix()
-    signature_mat         =  signature_df.as_matrix()
+    expression_mat        = expression_df.values
+    signature_mat         =  signature_df.values
 
     expression_mat,       \
     iterations            = kn.smooth_matrix_with_rwr(expression_mat, network_mat, run_parameters)
@@ -164,8 +164,8 @@ def run_cc_net_similarity(run_parameters):
     signature_df          = kn.update_spreadsheet_df(signature_df, unique_gene_names)
     #---------------------
 
-    expression_mat        = expression_df.as_matrix()
-    signature_mat         = signature_df.as_matrix()
+    expression_mat        = expression_df.values
+    signature_mat         =  signature_df.values
 
     expression_mat,       \
     iterations            = kn.smooth_matrix_with_rwr(expression_mat, network_mat, run_parameters)
@@ -390,7 +390,7 @@ def save_best_match_signature(result_df, run_parameters):
         run_parameters: write path (run_parameters["results_directory"]).
     """
 
-    result_matrix = nth_largest_setarr(result_df.as_matrix())
+    result_matrix = nth_largest_setarr(result_df.values)
 
     best_match_df = pd.DataFrame(result_matrix, index=result_df.index, columns=result_df.columns)
     fn_result     = get_output_file_name(run_parameters, 'Gene_to_TF_Association', 'viz')
