@@ -12,6 +12,7 @@ There are four similarity "signature"  methods that one can choose from:
 
 
 and two correlation measures:
+- pearson
 - spearman 
 - cosine 
 
@@ -65,6 +66,10 @@ make env_setup
 | make run_net_spearman    | spearman similarity with network enrichment             |
 | make run_cc_spearman     | spearman similarity with bootstraps                     |
 | make run_cc_net_spearman | spearman similarity with bootstraps & network enrichment|
+| make run_pearson         | pearson  similarity                                     |
+| make run_net_pearson     | pearson  similarity with network enrichment             |
+| make run_cc_pearson      | pearson  similarity with bootstraps                     |
+| make run_cc_net_pearson  | peasonn  similarity with bootstraps & network enrichment|
 
  
 * * * 
@@ -123,7 +128,7 @@ set the data file targets to the files you want to run, and the parameters as ap
 | **Key**                   | **Value**                                           | **Comments** |
 | ------------------------- | --------------------------------------------------- | ------------ |
 | method                    | **similarity**, **cc_similarity**, **net_similarity** or **cc_net_similarity**  | Choose similarity  method |
-| similarity_measure        | **spearman**, **cos**                               | Choose correlation  measure |
+| similarity_measure        | **pearson**, **spearman**, **cos**                  | Choose correlation  measure |
 | gg_network_name_full_path | directory+gg_network_name                           | Path and file name of the 4 col network file |
 | spreadsheet_name_full_path| directory+spreadsheet_name                          | Path and file name of user supplied gene sets |
 | signature_name_full_path  | directory+signature_data_name                       | Path and file name of user supplied signature data |
