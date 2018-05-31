@@ -69,7 +69,11 @@ make env_setup
 | make run_pearson         | pearson  similarity                                     |
 | make run_net_pearson     | pearson  similarity with network enrichment             |
 | make run_cc_pearson      | pearson  similarity with bootstraps                     |
-| make run_cc_net_pearson  | peasonn  similarity with bootstraps & network enrichment|
+| make run_cc_net_pearson  | pearson  similarity with bootstraps & network enrichment|
+| make run_cos             | cosine   similarity                                     |
+| make run_net_cos         | cosine   similarity with network enrichment             |
+| make run_cc_cos          | cosine   similarity with bootstraps                     |
+| make run_cc_net_cos      | cosine   similarity with bootstraps & network enrichment|
 
  
 * * * 
